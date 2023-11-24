@@ -28,10 +28,10 @@ interface Resource {
 
 const resources: Array<Resource> = [
   {
-    href: "/contacts",
+    href: "/(contacts)",
     name: "Contacts",
     description:
-      "Learn about the contact model and how to create, retrieve, update, delete, and list contacts.",
+      "Learn about the contact model and how to create, retrieve, update, delete, and list (contacts).",
     icon: UserIcon,
     pattern: {
       y: 16,
@@ -42,10 +42,10 @@ const resources: Array<Resource> = [
     },
   },
   {
-    href: "/conversations",
+    href: "/(conversations)",
     name: "Conversations",
     description:
-      "Learn about the conversation model and how to create, retrieve, update, delete, and list conversations.",
+      "Learn about the conversation model and how to create, retrieve, update, delete, and list (conversations).",
     icon: ChatBubbleIcon,
     pattern: {
       y: -6,
@@ -56,10 +56,10 @@ const resources: Array<Resource> = [
     },
   },
   {
-    href: "/messages",
+    href: "/(messages)",
     name: "Messages",
     description:
-      "Learn about the message model and how to create, retrieve, update, delete, and list messages.",
+      "Learn about the message model and how to create, retrieve, update, delete, and list (messages).",
     icon: EnvelopeIcon,
     pattern: {
       y: 32,
@@ -70,10 +70,10 @@ const resources: Array<Resource> = [
     },
   },
   {
-    href: "/groups",
+    href: "/(groups)",
     name: "Groups",
     description:
-      "Learn about the group model and how to create, retrieve, update, delete, and list groups.",
+      "Learn about the group model and how to create, retrieve, update, delete, and list (groups).",
     icon: UsersIcon,
     pattern: {
       y: 22,
