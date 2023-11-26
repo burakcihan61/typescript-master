@@ -135,12 +135,12 @@ Factory deseni, genellikle bir arayüz veya soyut bir sınıf üzerinde duran bi
 
 </CodeGroup>
 
-<div className="not-prose">
-  Bu örnekte, Product arayüzü veya soyut sınıf, oluşturulacak nesnelerin ortak davranışlarını tanımlar. ConcreteProduct1 ve ConcreteProduct2 sınıfları bu arayüzü uygular ve kendi özel davranışlarını sağlarlar.
+<div>
+  Bu örnekte, `Product` arayüzü veya soyut sınıf, oluşturulacak nesnelerin ortak davranışlarını tanımlar. `ConcreteProduct1` ve `ConcreteProduct2` sınıfları bu arayüzü uygular ve kendi özel davranışlarını sağlarlar.
 
-  Creator arayüzü veya soyut sınıf, fabrika metodunu tanımlar. Bu metod, alt sınıfların hangi ürünü oluşturacaklarını belirler. ConcreteCreator1 ve ConcreteCreator2 sınıfları, bu arayüzü uygular ve kendi factoryMethod implementasyonlarını sağlarlar.
+  `Creator` arayüzü veya soyut sınıf, fabrika metodunu tanımlar. Bu metod, alt sınıfların hangi ürünü oluşturacaklarını belirler. `ConcreteCreator1` ve `ConcreteCreator2` sınıfları, bu arayüzü uygular ve kendi factoryMethod implementasyonlarını sağlarlar.
 
-  Son olarak, clientCode fonksiyonu, bir Creator örneği alır ve bu creatörün factoryMethod'unu çağırarak belirli bir ürünü oluşturur ve kullanır. Bu şekilde, istemci kodu hangi ürünü kullanacağını bilmeksizin bir nesne yaratabilir.
+  Son olarak, `clientCode` fonksiyonu, bir `Creator` örneği alır ve bu creatörün `factoryMethod`'unu çağırarak belirli bir ürünü oluşturur ve kullanır. Bu şekilde, istemci kodu hangi ürünü kullanacağını bilmeksizin bir nesne yaratabilir.
 </div>
 
 ## Observer Deseni
@@ -235,8 +235,8 @@ Observer deseni, yaygın olarak kullanıcı arayüzleri, olay sistemleri ve veri
 
 </CodeGroup>
 
-<div className="not-prose">
-  Bu örnekte, ConcreteSubject bir Subject arayüzünü uygular ve ConcreteObserver bir Observer arayüzünü uygular. ConcreteSubject, içerdiği gözlemcileri (observers) takip eder ve durumu değiştiğinde bu gözlemcilere haber verir. ConcreteObserver ise durumu alır ve kendine özgü bir şekilde tepki verir.
+<div >
+  Bu örnekte, `ConcreteSubject` bir `Subject` arayüzünü uygular ve `ConcreteObserver` bir `Observer` arayüzünü uygular. `ConcreteSubject`, içerdiği gözlemcileri (`observers`) takip eder ve durumu değiştiğinde bu gözlemcilere haber verir. `ConcreteObserver` ise durumu alır ve kendine özgü bir şekilde tepki verir.
 </div>
 
 ## Decorator Deseni
@@ -329,8 +329,8 @@ Decorator deseni, Open/Closed prensibine (bir sınıfın davranışını değiş
 
 </CodeGroup>
 
-<div className="not-prose">
-  Bu örnekte, Coffee arayüzü veya soyut sınıf, dekore edilecek nesnenin temel davranışını belirtir. SimpleCoffee sınıfı, bu arayüzü uygular ve temel kahve davranışını sağlar.
+<div>
+  Bu örnekte, `Coffee` arayüzü veya soyut sınıf, dekore edilecek nesnenin temel davranışını belirtir. SimpleCoffee sınıfı, bu arayüzü uygular ve temel kahve davranışını sağlar.
 
   CoffeeDecorator soyut sınıfı, dekoratörlerin uygulanmasını sağlar ve ConcreteDecorator sınıfları, gerçek dekorasyonları uygular. Örneğin, MilkDecorator sınıfı süt eklerken, SugarDecorator sınıfı şeker ekler.
 
