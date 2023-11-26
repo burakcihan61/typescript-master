@@ -6,13 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="19a74255-956d-4801-b426-07739d77fb4d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(attachments)/pages.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(contacts)/pages.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(conversations)/pages.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(groups)/pages.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/(messages)/pages.mdx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/quickstart/page.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/typescript-design-patterns/page.mdx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navigation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Navigation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/authentication/page.mdx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/sdks/page.mdx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/typescript-design-patterns/page.mdx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/typescript-design-patterns/page.mdx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/webhooks/page.mdx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +64,7 @@
       <option name="presentableId" value="Default" />
       <updated>1700860026624</updated>
       <workItem from="1700860031468" duration="9448000" />
-      <workItem from="1700993096031" duration="947000" />
+      <workItem from="1700993096031" duration="1878000" />
     </task>
     <servers />
   </component>

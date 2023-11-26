@@ -29,8 +29,7 @@ Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olma
 
 <CodeGroup title="Singleton">
 
-```
-
+```ts
   class Singleton {
   private static instance: Singleton | null = null;
 
@@ -61,14 +60,12 @@ Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olma
 
 </CodeGroup>
 
-<div className="not-prose">
-  Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olmayı amaçlayan bir tasarım desenidir. TypeScript dilinde de Singleton deseni kullanılabilir, ancak TypeScript'in doğası gereği, bazı dillerdeki gibi tam anlamıyla private constructor (özel kurucu) kullanmak mümkün değildir. Bununla birlikte, Singleton desenini uygulamak için bazı yöntemler vardır. <br/><br/>
+<div>
+  Bu örnekte, `getInstance` metodu ile Singleton sınıfının tek bir örneğini alabilirsiniz. Eğer daha önce bir örnek oluşturulmamışsa, `getInstance` metodu yeni bir örnek oluşturur ve bu örneği döndürür. Eğer önce bir örnek oluşturulmuşsa, mevcut örneği döndürür.
 
-  İlk olarak, bir sınıfın yalnızca bir örneğini tutmak için bir statik özellik kullanabilirsiniz. Aşağıda, TypeScript ile basit bir Singleton örneği gösterilmektedir: <br/><br/>
+  Ancak, bu yöntem tam anlamıyla private constructor kullanmaz ve `new Singleton()` ifadesi herhangi bir yerde çağrılabilir. Bu nedenle, sınıfın oluşturulmasını sınırlamak için belirli bir yöntem kullanılması önemlidir.
 
-  Ancak, bu yöntem tam anlamıyla private constructor kullanmaz ve new Singleton() ifadesi herhangi bir yerde çağrılabilir. Bu nedenle, sınıfın oluşturulmasını sınırlamak için belirli bir yöntem kullanılması önemlidir. <br/><br/>
-
-  Bu örnekte, TypeScript'in private constructor özelliği olmadığı için private constructor() kullanılarak sınıfın dışından doğrudan bir örneği oluşturulması engellenir. Ancak, dikkatli olunması ve Singleton desenini doğru bir şekilde uygulamak için belirli durumları düşünmek önemlidir.
+  Bu örnekte, TypeScript'in private constructor özelliği olmadığı için `private constructor()` kullanılarak sınıfın dışından doğrudan bir örneği oluşturulması engellenir. Ancak, dikkatli olunması ve Singleton desenini doğru bir şekilde uygulamak için belirli durumları düşünmek önemlidir.
 </div>
 
 ## Factory Deseni
@@ -81,7 +78,7 @@ Factory deseni, genellikle bir arayüz veya soyut bir sınıf üzerinde duran bi
 
 <CodeGroup title="Factory">
 
-  ```
+  ```ts
   // Ürün arayüzü veya soyut sınıf
   interface Product {
   operation(): string;
@@ -138,123 +135,259 @@ Factory deseni, genellikle bir arayüz veya soyut bir sınıf üzerinde duran bi
 
 </CodeGroup>
 
+<div className="not-prose">
+  Bu örnekte, Product arayüzü veya soyut sınıf, oluşturulacak nesnelerin ortak davranışlarını tanımlar. ConcreteProduct1 ve ConcreteProduct2 sınıfları bu arayüzü uygular ve kendi özel davranışlarını sağlarlar.
+
+  Creator arayüzü veya soyut sınıf, fabrika metodunu tanımlar. Bu metod, alt sınıfların hangi ürünü oluşturacaklarını belirler. ConcreteCreator1 ve ConcreteCreator2 sınıfları, bu arayüzü uygular ve kendi factoryMethod implementasyonlarını sağlarlar.
+
+  Son olarak, clientCode fonksiyonu, bir Creator örneği alır ve bu creatörün factoryMethod'unu çağırarak belirli bir ürünü oluşturur ve kullanır. Bu şekilde, istemci kodu hangi ürünü kullanacağını bilmeksizin bir nesne yaratabilir.
+</div>
+
 ## Observer Deseni
 
-Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olmayı amaçlayan bir tasarım desenidir. TypeScript dilinde de Singleton deseni kullanılabilir, ancak TypeScript'in doğası gereği, bazı dillerdeki gibi tam anlamıyla private constructor (özel kurucu) kullanmak mümkün değildir. Bununla birlikte, Singleton desenini uygulamak için bazı yöntemler vardır.
+Observer deseni, bir nesnenin durumundaki değişiklikleri takip etmek isteyen bir dizi nesnenin (gözlemcilerin) bir nesneye abone olmasını sağlayan bir tasarım desenidir. Bu desen, bir nesnenin durumunda değişiklik olduğunda bağımlı nesneleri otomatik olarak güncellemek için kullanılır. Bu durum, bir nesnenin durumu değiştikçe diğer nesnelerin tepki vermesini sağlar.
 
-İlk olarak, bir sınıfın yalnızca bir örneğini tutmak için bir statik özellik kullanabilirsiniz. Aşağıda, TypeScript ile basit bir Singleton örneği gösterilmektedir:
+Bu desenin ana bileşenleri şunlardır:
+
+* **Subject (Konu)**: Gözlemleyicileri (observers) içeren bir nesne. Durumu değiştikçe gözlemcilerini haberdar eder.
+
+* **Observer (Gözlemci)**: Bir konu üzerinde değişiklikleri takip etmek isteyen arayüze sahip nesneler.
+
+Observer deseni, yaygın olarak kullanıcı arayüzleri, olay sistemleri ve veri alma/gönderme gibi birçok senaryoda kullanılır.
+
+İşte TypeScript ile basit bir Observer deseni örneği:
 
 <CodeGroup>
 
-  ```
-  # Install the Protocol JavaScript SDK
-  class Singleton {
-  private static instance: Singleton | null = null;
-
-  private constructor() {
-  // private constructor
+  ```ts
+  // Subject (Konu) arayüzü veya soyut sınıf
+  interface Subject {
+  addObserver(observer: Observer): void;
+  removeObserver(observer: Observer): void;
+  notifyObservers(): void;
 }
 
-  public static getInstance(): Singleton {
-  if (!Singleton.instance) {
-  Singleton.instance = new Singleton();
+  // ConcreteSubject (Somut Konu)
+  class ConcreteSubject implements Subject {
+  private observers: Observer[] = [];
+  private state: number = 0;
+
+  addObserver(observer: Observer): void {
+  this.observers.push(observer);
 }
 
-  return Singleton.instance;
+  removeObserver(observer: Observer): void {
+  const index = this.observers.indexOf(observer);
+  if (index !== -1) {
+  this.observers.splice(index, 1);
+}
 }
 
-  public doSomething(): void {
-  console.log("Singleton is doing something");
+  notifyObservers(): void {
+  for (const observer of this.observers) {
+  observer.update(this.state);
 }
 }
 
-  // Kullanım örneği
-  const singleton1 = Singleton.getInstance();
-  const singleton2 = Singleton.getInstance();
+  setState(state: number): void {
+  this.state = state;
+  this.notifyObservers();
+}
+}
 
-  console.log(singleton1 === singleton2); // true
+  // Observer (Gözlemci) arayüzü veya soyut sınıf
+  interface Observer {
+  update(state: number): void;
+}
+
+  // ConcreteObserver (Somut Gözlemci)
+  class ConcreteObserver implements Observer {
+  private name: string;
+
+  constructor(name: string) {
+  this.name = name;
+}
+
+  update(state: number): void {
+  console.log(`${this.name} notified with state: ${state}`);
+}
+}
+
+  // Kullanım
+  const subject = new ConcreteSubject();
+
+  const observer1 = new ConcreteObserver('Observer 1');
+  const observer2 = new ConcreteObserver('Observer 2');
+
+  subject.addObserver(observer1);
+  subject.addObserver(observer2);
+
+  subject.setState(1);
+  subject.setState(2);
+
+  // Çıktı:
+  // Observer 1 notified with state: 1
+  // Observer 2 notified with state: 1
+  // Observer 1 notified with state: 2
+  // Observer 2 notified with state: 2
 
   ```
 
 </CodeGroup>
+
+<div className="not-prose">
+  Bu örnekte, ConcreteSubject bir Subject arayüzünü uygular ve ConcreteObserver bir Observer arayüzünü uygular. ConcreteSubject, içerdiği gözlemcileri (observers) takip eder ve durumu değiştiğinde bu gözlemcilere haber verir. ConcreteObserver ise durumu alır ve kendine özgü bir şekilde tepki verir.
+</div>
 
 ## Decorator Deseni
 
-Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olmayı amaçlayan bir tasarım desenidir. TypeScript dilinde de Singleton deseni kullanılabilir, ancak TypeScript'in doğası gereği, bazı dillerdeki gibi tam anlamıyla private constructor (özel kurucu) kullanmak mümkün değildir. Bununla birlikte, Singleton desenini uygulamak için bazı yöntemler vardır.
+Decorator deseni, nesne üzerinde dinamik olarak davranış eklemek için kullanılan bir tasarım desenidir. Bu desen, bir nesneyi sarmalayarak (wrap) ve bu sarmalayıcı nesneye ek işlevsellik ekleyerek çalışır. Bu sayede, nesne üzerinde yapılan değişiklikler, nesnenin sarmalayıcıları aracılığıyla etki eder ve bu değişiklikler çalışma zamanında gerçekleştirilebilir.
 
-İlk olarak, bir sınıfın yalnızca bir örneğini tutmak için bir statik özellik kullanabilirsiniz. Aşağıda, TypeScript ile basit bir Singleton örneği gösterilmektedir:
+Decorator deseni, Open/Closed prensibine (bir sınıfın davranışını değiştirmek için sınıfın değiştirilmemesi) uyan ve bir nesnenin davranışını genişletmek veya değiştirmek istediğimizde tercih ettiğimiz bir desenidir.
+
+İşte TypeScript ile basit bir Decorator deseni örneği:
 
 <CodeGroup>
 
-  ```
-  # Install the Protocol JavaScript SDK
-  class Singleton {
-  private static instance: Singleton | null = null;
-
-  private constructor() {
-  // private constructor
+  ```ts
+  // Component (Bileşen) arayüzü veya soyut sınıf
+  interface Coffee {
+  cost(): number;
+  description(): string;
 }
 
-  public static getInstance(): Singleton {
-  if (!Singleton.instance) {
-  Singleton.instance = new Singleton();
+  // ConcreteComponent (Somut Bileşen)
+  class SimpleCoffee implements Coffee {
+  cost(): number {
+  return 5;
 }
 
-  return Singleton.instance;
-}
-
-  public doSomething(): void {
-  console.log("Singleton is doing something");
+  description(): string {
+  return 'Simple coffee';
 }
 }
 
-  // Kullanım örneği
-  const singleton1 = Singleton.getInstance();
-  const singleton2 = Singleton.getInstance();
+  // Decorator (Dekoratör) arayüzü veya soyut sınıf
+  abstract class CoffeeDecorator implements Coffee {
+  protected decoratedCoffee: Coffee;
 
-  console.log(singleton1 === singleton2); // true
+  constructor(coffee: Coffee) {
+  this.decoratedCoffee = coffee;
+}
+
+  cost(): number {
+  return this.decoratedCoffee.cost();
+}
+
+  description(): string {
+  return this.decoratedCoffee.description();
+}
+}
+
+  // ConcreteDecorator (Somut Dekoratör)
+  class MilkDecorator extends CoffeeDecorator {
+  constructor(coffee: Coffee) {
+  super(coffee);
+}
+
+  cost(): number {
+  return this.decoratedCoffee.cost() + 2;
+}
+
+  description(): string {
+  return this.decoratedCoffee.description() + ', with milk';
+}
+}
+
+  // ConcreteDecorator (Somut Dekoratör)
+  class SugarDecorator extends CoffeeDecorator {
+  constructor(coffee: Coffee) {
+  super(coffee);
+}
+
+  cost(): number {
+  return this.decoratedCoffee.cost() + 1;
+}
+
+  description(): string {
+  return this.decoratedCoffee.description() + ', with sugar';
+}
+}
+
+  // Kullanım
+  const simpleCoffee: Coffee = new SimpleCoffee();
+  console.log(`Cost: $${simpleCoffee.cost()}, Description: ${simpleCoffee.description()}`);
+
+  const milkCoffee: Coffee = new MilkDecorator(new SimpleCoffee());
+  console.log(`Cost: $${milkCoffee.cost()}, Description: ${milkCoffee.description()}`);
+
+  const sugarMilkCoffee: Coffee = new SugarDecorator(new MilkDecorator(new SimpleCoffee()));
+  console.log(`Cost: $${sugarMilkCoffee.cost()}, Description: ${sugarMilkCoffee.description()}`);
+
 
   ```
 
 </CodeGroup>
+
+<div className="not-prose">
+  Bu örnekte, Coffee arayüzü veya soyut sınıf, dekore edilecek nesnenin temel davranışını belirtir. SimpleCoffee sınıfı, bu arayüzü uygular ve temel kahve davranışını sağlar.
+
+  CoffeeDecorator soyut sınıfı, dekoratörlerin uygulanmasını sağlar ve ConcreteDecorator sınıfları, gerçek dekorasyonları uygular. Örneğin, MilkDecorator sınıfı süt eklerken, SugarDecorator sınıfı şeker ekler.
+
+  Sonuç olarak, SimpleCoffee nesnesi üzerine MilkDecorator ve SugarDecorator sarmalayıcıları ekleyerek yeni özellikler ekleyebilir ve nesnenin davranışını değiştirebilirsiniz.
+</div>
 
 ## Prototype Deseni
 
-Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olmayı amaçlayan bir tasarım desenidir. TypeScript dilinde de Singleton deseni kullanılabilir, ancak TypeScript'in doğası gereği, bazı dillerdeki gibi tam anlamıyla private constructor (özel kurucu) kullanmak mümkün değildir. Bununla birlikte, Singleton desenini uygulamak için bazı yöntemler vardır.
+Prototype deseni, nesnelerin kopyalarını oluşturmak için kullanılan bir tasarım desenidir. Bu desen, nesne oluşturma sürecini bir prototip nesnesinden türetilen kopyalar üzerinden gerçekleştirir. Bu sayede, bir nesnenin yeni kopyalarını oluşturmak için sınıf hiyerarşilerini yeniden oluşturmak gerekmez.
 
-İlk olarak, bir sınıfın yalnızca bir örneğini tutmak için bir statik özellik kullanabilirsiniz. Aşağıda, TypeScript ile basit bir Singleton örneği gösterilmektedir:
+Prototype deseni, özellikle nesnenin karmaşık bir inşa sürecine sahip olduğu durumlarda kullanışlıdır. Bu desen, nesne oluşturma maliyetini düşürerek ve yeni nesnelerin başka nesnelerle aynı başlangıç durumlarına sahip olmasını sağlayarak performans ve bellek kullanımını iyileştirebilir.
+
+İşte TypeScript ile basit bir Prototype deseni örneği:
 
 <CodeGroup>
 
-  ```
-  # Install the Protocol JavaScript SDK
-  class Singleton {
-  private static instance: Singleton | null = null;
-
-  private constructor() {
-  // private constructor
+  ```ts
+  // Prototype (Prototip) arayüzü veya soyut sınıf
+  interface Cloneable {
+  clone(): Cloneable;
 }
 
-  public static getInstance(): Singleton {
-  if (!Singleton.instance) {
-  Singleton.instance = new Singleton();
+  // ConcretePrototype (Somut Prototip)
+  class ConcretePrototype implements Cloneable {
+  private property1: string;
+  private property2: number;
+
+  constructor(property1: string, property2: number) {
+  this.property1 = property1;
+  this.property2 = property2;
 }
 
-  return Singleton.instance;
+  clone(): Cloneable {
+  // Yeni bir kopya oluşturulur ve mevcut özellikler kopyalanır
+  return new ConcretePrototype(this.property1, this.property2);
 }
 
-  public doSomething(): void {
-  console.log("Singleton is doing something");
-}
+  // Diğer metotlar ve özellikler...
 }
 
-  // Kullanım örneği
-  const singleton1 = Singleton.getInstance();
-  const singleton2 = Singleton.getInstance();
+  // Kullanım
+  const prototypeInstance1 = new ConcretePrototype('Value 1', 42);
+  const clonedInstance1 = prototypeInstance1.clone();
 
-  console.log(singleton1 === singleton2); // true
+  console.log(prototypeInstance1); // Orjinal nesne
+  console.log(clonedInstance1);    // Kopya nesne
+
 
   ```
 
 </CodeGroup>
+
+<div className="not-prose">
+  Bu örnekte, Cloneable arayüzü veya soyut sınıf, klonlama yeteneğini belirtir. ConcretePrototype sınıfı, bu arayüzü uygular ve klonlanabilir nesnenin yapısını ve davranışını tanımlar.
+
+  Kullanım örneğinde, prototypeInstance1 adlı bir orijinal nesne oluşturulur. Ardından, bu nesnenin clone metodunu kullanarak bir kopyası olan clonedInstance1 oluşturulur. Bu sayede, clonedInstance1 ve prototypeInstance1 nesneleri aynı başlangıç durumlarına sahip olur, ancak bağımsız nesnelerdir.
+
+  Prototype deseni, özellikle nesnenin içeriği karmaşık ve nesnenin kopyalanması maliyetli olduğu durumlarda kullanılır.
+</div>
 
