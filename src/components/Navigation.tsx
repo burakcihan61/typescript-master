@@ -233,25 +233,13 @@ export const navigation: Array<NavGroup> = [
   {
     title: "Guides",
     links: [
-      { title: "Introduction", href: "/" },
-      { title: "TypeScript Design Patterns", href: "/typescript-design-patterns" },
-      // { title: "SDKs", href: "/sdks" },
-      // { title: "Authentication", href: "/authentication" },
-      // { title: "Pagination", href: "/pagination" },
-      // { title: "Errors", href: "/errors" },
-      // { title: "Webhooks", href: "/webhooks" },
+      { title: "Giriş", href: "/" },
+      {
+        title: "TypeScript Design Patterns",
+        href: "/typescript-design-patterns",
+      },
     ],
   },
-  // {
-  //   title: "Resources",
-  //   links: [
-  //     { title: "Contacts", href: "/contacts" },
-  //     { title: "Conversations", href: "/conversations" },
-  //     { title: "Messages", href: "/messages" },
-  //     { title: "Groups", href: "/groups" },
-  //     { title: "Attachments", href: "/attachments" },
-  //   ],
-  // },
 ]
 
 export function Navigation(props: React.ComponentPropsWithoutRef<"nav">) {

@@ -41,12 +41,12 @@ const FeedbackForm = forwardRef<
       className="absolute inset-0 flex items-center justify-center gap-6 md:justify-start"
     >
       <p className="text-sm text-zinc-600 dark:text-zinc-400">
-        Was this page helpful?
+          Bu sayfa yardımcı oldu mu?
       </p>
       <div className="group grid h-8 grid-cols-[1fr,1px,1fr] overflow-hidden rounded-full border border-zinc-900/10 dark:border-white/10">
-        <FeedbackButton data-response="yes">Yes</FeedbackButton>
+        <FeedbackButton data-response="yes">Evet</FeedbackButton>
         <div className="bg-zinc-900/10 dark:bg-white/10" />
-        <FeedbackButton data-response="no">No</FeedbackButton>
+        <FeedbackButton data-response="no">Hayır</FeedbackButton>
       </div>
     </form>
   )
