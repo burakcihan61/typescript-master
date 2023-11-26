@@ -1,0 +1,260 @@
+export const metadata = {
+  title: "TypeScript Design Patterns",
+  description:
+    "TypeScript, JavaScript tabanlı bir programlama dilidir ve genellikle büyük ölçekli uygulamaların geliştirilmesi için kullanılır.",
+}
+
+# Design Patterns
+
+
+TypeScript, JavaScript tabanlı bir programlama dilidir ve genellikle büyük ölçekli uygulamaların geliştirilmesi için kullanılır. TypeScript, JavaScript'in yanı sıra statik tür sistemine sahip olduğu için, kodunuzun daha güvenli ve sürdürülebilir olmasına olanak tanır. Bu nedenle, TypeScript projelerinde tasarım kalıpları, kodun düzenlenmesi, sürdürülebilirliği artırmak ve hataları azaltmak için önemli bir rol oynar.
+
+Design pattern'lar, belirli problemleri çözmek veya belirli durumlarla başa çıkmak için geliştirilmiş genel çözüm şablonlarıdır. TypeScript tasarım kalıpları da aynı prensiplere dayanır ve genellikle aşağıdaki amaçlara hizmet eder:
+
+<Note>
+  * **Düzen ve Organizasyon**: Design pattern'lar, kodunuzun düzenli ve anlaşılır olmasına yardımcı olabilir. Projenizin büyüklüğü arttıkça, düzenli bir yapıya sahip olmak, kodunuzun bakımını kolaylaştırır.
+  * **Tekrar Kullanım**: Design pattern'lar, belirli bir problemi çözmek için genel bir çözüm sağladığından, bu çözümleri başka yerlerde tekrar kullanabilirsiniz. Bu, kodunuzun daha az tekrar içermesine ve daha az hata içermesine yardımcı olabilir.
+  * **Hata Azaltma**: Design pattern'lar, belirli bir problemin çözümü için test edilmiş ve doğrulanmış bir yaklaşım sunar. Bu nedenle, bu kalıpları kullanmak, hataları azaltmanıza yardımcı olabilir.
+  * **Değişikliklere Direnç**: Tasarım kalıpları, değişikliklere karşı dirençli olacak şekilde tasarlanabilir. Yani, projenizde yapılan değişikliklerin diğer kısımları etkileme olasılığını azaltabilir.
+  * **Performans**: Design pattern'lar, belirli bir problemin çözümü için optimize edilmiş bir yaklaşım sunar. Bu nedenle, bu kalıpları kullanmak, performansı artırmanıza yardımcı olabilir.
+  * **Ölçeklenebilirlik**: Design pattern'lar, belirli bir problemin çözümü için optimize edilmiş bir yaklaşım sunar. Bu nedenle, bu kalıpları kullanmak, performansı artırmanıza yardımcı olabilir.
+  * **Esneklik**: Design pattern'lar, belirli bir problemin çözümü için optimize edilmiş bir yaklaşım sunar. Bu nedenle, bu kalıpları kullanmak, performansı artırmanıza yardımcı olabilir.
+</Note>
+
+## Singletons Deseni
+
+Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olmayı amaçlayan bir tasarım desenidir. TypeScript dilinde de Singleton deseni kullanılabilir, ancak TypeScript'in doğası gereği, bazı dillerdeki gibi tam anlamıyla private constructor (özel kurucu) kullanmak mümkün değildir. Bununla birlikte, Singleton desenini uygulamak için bazı yöntemler vardır.
+
+İlk olarak, bir sınıfın yalnızca bir örneğini tutmak için bir statik özellik kullanabilirsiniz. Aşağıda, TypeScript ile basit bir Singleton örneği gösterilmektedir:
+
+<CodeGroup title="Singleton">
+
+```
+
+  class Singleton {
+  private static instance: Singleton | null = null;
+
+  private constructor() {
+  // private constructor
+}
+
+  public static getInstance(): Singleton {
+  if (!Singleton.instance) {
+  Singleton.instance = new Singleton();
+}
+
+  return Singleton.instance;
+}
+
+  public doSomething(): void {
+  console.log("Singleton is doing something");
+}
+}
+
+  // Kullanım örneği
+  const singleton1 = Singleton.getInstance();
+  const singleton2 = Singleton.getInstance();
+
+  console.log(singleton1 === singleton2); // true
+
+```
+
+</CodeGroup>
+
+<div className="not-prose">
+  Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olmayı amaçlayan bir tasarım desenidir. TypeScript dilinde de Singleton deseni kullanılabilir, ancak TypeScript'in doğası gereği, bazı dillerdeki gibi tam anlamıyla private constructor (özel kurucu) kullanmak mümkün değildir. Bununla birlikte, Singleton desenini uygulamak için bazı yöntemler vardır. <br/><br/>
+
+  İlk olarak, bir sınıfın yalnızca bir örneğini tutmak için bir statik özellik kullanabilirsiniz. Aşağıda, TypeScript ile basit bir Singleton örneği gösterilmektedir: <br/><br/>
+
+  Ancak, bu yöntem tam anlamıyla private constructor kullanmaz ve new Singleton() ifadesi herhangi bir yerde çağrılabilir. Bu nedenle, sınıfın oluşturulmasını sınırlamak için belirli bir yöntem kullanılması önemlidir. <br/><br/>
+
+  Bu örnekte, TypeScript'in private constructor özelliği olmadığı için private constructor() kullanılarak sınıfın dışından doğrudan bir örneği oluşturulması engellenir. Ancak, dikkatli olunması ve Singleton desenini doğru bir şekilde uygulamak için belirli durumları düşünmek önemlidir.
+</div>
+
+## Factory Deseni
+
+Factory deseni (Factory Pattern), bir nesne yaratma sürecini kapsülleme amacı güden bir creational (yaratıcı) tasarım desenidir. Bu desen, nesne oluşturma mantığını ana sınıftan ayırarak, bir alt sınıfın hangi sınıfın nesnesini oluşturacağını belirlemesine izin verir.
+
+Factory deseni, genellikle bir arayüz veya soyut bir sınıf üzerinde duran bir "fabrika" sınıfını içerir. Alt sınıflar bu arayüzü veya soyut sınıfı uygular ve kendi özelleştirilmiş nesnelerini oluşturmak için gerekli yöntemleri sağlarlar.
+
+İşte TypeScript ile basit bir Factory deseni örneği:
+
+<CodeGroup title="Factory">
+
+  ```
+  // Ürün arayüzü veya soyut sınıf
+  interface Product {
+  operation(): string;
+}
+
+  // ConcreteProduct1
+  class ConcreteProduct1 implements Product {
+  operation(): string {
+  return 'ConcreteProduct1 operation';
+}
+}
+
+  // ConcreteProduct2
+  class ConcreteProduct2 implements Product {
+  operation(): string {
+  return 'ConcreteProduct2 operation';
+}
+}
+
+  // Fabrika arayüzü veya soyut sınıf
+  interface Creator {
+  factoryMethod(): Product;
+}
+
+  // ConcreteCreator1
+  class ConcreteCreator1 implements Creator {
+  factoryMethod(): Product {
+  return new ConcreteProduct1();
+}
+}
+
+  // ConcreteCreator2
+  class ConcreteCreator2 implements Creator {
+  factoryMethod(): Product {
+  return new ConcreteProduct2();
+}
+}
+
+  // Kullanım
+  function clientCode(creator: Creator): void {
+  const product = creator.factoryMethod();
+  console.log(product.operation());
+}
+
+  // Kullanım örneği
+  const creator1 = new ConcreteCreator1();
+  clientCode(creator1);
+
+  const creator2 = new ConcreteCreator2();
+  clientCode(creator2);
+
+
+  ```
+
+</CodeGroup>
+
+## Observer Deseni
+
+Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olmayı amaçlayan bir tasarım desenidir. TypeScript dilinde de Singleton deseni kullanılabilir, ancak TypeScript'in doğası gereği, bazı dillerdeki gibi tam anlamıyla private constructor (özel kurucu) kullanmak mümkün değildir. Bununla birlikte, Singleton desenini uygulamak için bazı yöntemler vardır.
+
+İlk olarak, bir sınıfın yalnızca bir örneğini tutmak için bir statik özellik kullanabilirsiniz. Aşağıda, TypeScript ile basit bir Singleton örneği gösterilmektedir:
+
+<CodeGroup>
+
+  ```
+  # Install the Protocol JavaScript SDK
+  class Singleton {
+  private static instance: Singleton | null = null;
+
+  private constructor() {
+  // private constructor
+}
+
+  public static getInstance(): Singleton {
+  if (!Singleton.instance) {
+  Singleton.instance = new Singleton();
+}
+
+  return Singleton.instance;
+}
+
+  public doSomething(): void {
+  console.log("Singleton is doing something");
+}
+}
+
+  // Kullanım örneği
+  const singleton1 = Singleton.getInstance();
+  const singleton2 = Singleton.getInstance();
+
+  console.log(singleton1 === singleton2); // true
+
+  ```
+
+</CodeGroup>
+
+## Decorator Deseni
+
+Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olmayı amaçlayan bir tasarım desenidir. TypeScript dilinde de Singleton deseni kullanılabilir, ancak TypeScript'in doğası gereği, bazı dillerdeki gibi tam anlamıyla private constructor (özel kurucu) kullanmak mümkün değildir. Bununla birlikte, Singleton desenini uygulamak için bazı yöntemler vardır.
+
+İlk olarak, bir sınıfın yalnızca bir örneğini tutmak için bir statik özellik kullanabilirsiniz. Aşağıda, TypeScript ile basit bir Singleton örneği gösterilmektedir:
+
+<CodeGroup>
+
+  ```
+  # Install the Protocol JavaScript SDK
+  class Singleton {
+  private static instance: Singleton | null = null;
+
+  private constructor() {
+  // private constructor
+}
+
+  public static getInstance(): Singleton {
+  if (!Singleton.instance) {
+  Singleton.instance = new Singleton();
+}
+
+  return Singleton.instance;
+}
+
+  public doSomething(): void {
+  console.log("Singleton is doing something");
+}
+}
+
+  // Kullanım örneği
+  const singleton1 = Singleton.getInstance();
+  const singleton2 = Singleton.getInstance();
+
+  console.log(singleton1 === singleton2); // true
+
+  ```
+
+</CodeGroup>
+
+## Prototype Deseni
+
+Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olmayı amaçlayan bir tasarım desenidir. TypeScript dilinde de Singleton deseni kullanılabilir, ancak TypeScript'in doğası gereği, bazı dillerdeki gibi tam anlamıyla private constructor (özel kurucu) kullanmak mümkün değildir. Bununla birlikte, Singleton desenini uygulamak için bazı yöntemler vardır.
+
+İlk olarak, bir sınıfın yalnızca bir örneğini tutmak için bir statik özellik kullanabilirsiniz. Aşağıda, TypeScript ile basit bir Singleton örneği gösterilmektedir:
+
+<CodeGroup>
+
+  ```
+  # Install the Protocol JavaScript SDK
+  class Singleton {
+  private static instance: Singleton | null = null;
+
+  private constructor() {
+  // private constructor
+}
+
+  public static getInstance(): Singleton {
+  if (!Singleton.instance) {
+  Singleton.instance = new Singleton();
+}
+
+  return Singleton.instance;
+}
+
+  public doSomething(): void {
+  console.log("Singleton is doing something");
+}
+}
+
+  // Kullanım örneği
+  const singleton1 = Singleton.getInstance();
+  const singleton2 = Singleton.getInstance();
+
+  console.log(singleton1 === singleton2); // true
+
+  ```
+
+</CodeGroup>
+

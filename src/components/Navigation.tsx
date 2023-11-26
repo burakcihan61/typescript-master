@@ -234,7 +234,7 @@ export const navigation: Array<NavGroup> = [
     title: "Guides",
     links: [
       { title: "Introduction", href: "/" },
-      { title: "Quickstart", href: "/quickstart" },
+      { title: "TypeScript Design Patterns", href: "/typescript-design-patterns" },
       // { title: "SDKs", href: "/sdks" },
       // { title: "Authentication", href: "/authentication" },
       // { title: "Pagination", href: "/pagination" },
