@@ -330,11 +330,11 @@ Decorator deseni, Open/Closed prensibine (bir sınıfın davranışını değiş
 </CodeGroup>
 
 <div>
-  Bu örnekte, `Coffee` arayüzü veya soyut sınıf, dekore edilecek nesnenin temel davranışını belirtir. SimpleCoffee sınıfı, bu arayüzü uygular ve temel kahve davranışını sağlar.
+  Bu örnekte, `Coffee` arayüzü veya soyut sınıf, dekore edilecek nesnenin temel davranışını belirtir. `SimpleCoffee` sınıfı, bu arayüzü uygular ve temel kahve davranışını sağlar.
 
-  CoffeeDecorator soyut sınıfı, dekoratörlerin uygulanmasını sağlar ve ConcreteDecorator sınıfları, gerçek dekorasyonları uygular. Örneğin, MilkDecorator sınıfı süt eklerken, SugarDecorator sınıfı şeker ekler.
+  `CoffeeDecorator` soyut sınıfı, dekoratörlerin uygulanmasını sağlar ve `ConcreteDecorator` sınıfları, gerçek dekorasyonları uygular. Örneğin, `MilkDecorator` sınıfı süt eklerken, `SugarDecorator` sınıfı şeker ekler.
 
-  Sonuç olarak, SimpleCoffee nesnesi üzerine MilkDecorator ve SugarDecorator sarmalayıcıları ekleyerek yeni özellikler ekleyebilir ve nesnenin davranışını değiştirebilirsiniz.
+  Sonuç olarak, `SimpleCoffee` nesnesi üzerine `MilkDecorator` ve `SugarDecorator` sarmalayıcıları ekleyerek yeni özellikler ekleyebilir ve nesnenin davranışını değiştirebilirsiniz.
 </div>
 
 ## Prototype Deseni
@@ -383,10 +383,10 @@ Prototype deseni, özellikle nesnenin karmaşık bir inşa sürecine sahip oldu�
 
 </CodeGroup>
 
-<div className="not-prose">
-  Bu örnekte, Cloneable arayüzü veya soyut sınıf, klonlama yeteneğini belirtir. ConcretePrototype sınıfı, bu arayüzü uygular ve klonlanabilir nesnenin yapısını ve davranışını tanımlar.
+<div>
+  Bu örnekte, `Cloneable` arayüzü veya soyut sınıf, klonlama yeteneğini belirtir. `ConcretePrototype` sınıfı, bu arayüzü uygular ve klonlanabilir nesnenin yapısını ve davranışını tanımlar.
 
-  Kullanım örneğinde, prototypeInstance1 adlı bir orijinal nesne oluşturulur. Ardından, bu nesnenin clone metodunu kullanarak bir kopyası olan clonedInstance1 oluşturulur. Bu sayede, clonedInstance1 ve prototypeInstance1 nesneleri aynı başlangıç durumlarına sahip olur, ancak bağımsız nesnelerdir.
+  Kullanım örneğinde, `prototypeInstance1` adlı bir orijinal nesne oluşturulur. Ardından, bu nesnenin clone metodunu kullanarak bir kopyası olan `clonedInstance1` oluşturulur. Bu sayede, `clonedInstance1` ve `prototypeInstance1` nesneleri aynı başlangıç durumlarına sahip olur, ancak bağımsız nesnelerdir.
 
   Prototype deseni, özellikle nesnenin içeriği karmaşık ve nesnenin kopyalanması maliyetli olduğu durumlarda kullanılır.
 </div>
