@@ -9,5 +9,6 @@ Bu proje, TypeScript kullanarak yaygın tasarım desenlerini anlamak ve uygulama
 3. [Observer Pattern](#observer-pattern)
 4. [Decorator Pattern](#decorator-pattern)
 5. [Prototype Pattern](#prototype-pattern)
+6. [Builder Pattern](#builder-pattern)
 
 
