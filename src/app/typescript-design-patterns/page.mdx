@@ -412,3 +412,56 @@ Kullanım örneğinde, `prototypeInstance1` adlı bir orijinal nesne oluşturulu
 Prototype deseni, özellikle nesnenin içeriği karmaşık ve nesnenin kopyalanması maliyetli olduğu durumlarda kullanılır.
 
 </div>
+
+## Prototype Deseni
+
+Prototype deseni, nesnelerin kopyalarını oluşturmak için kullanılan bir tasarım desenidir. Bu desen, nesne oluşturma sürecini bir prototip nesnesinden türetilen kopyalar üzerinden gerçekleştirir. Bu sayede, bir nesnenin yeni kopyalarını oluşturmak için sınıf hiyerarşilerini yeniden oluşturmak gerekmez.
+
+Prototype deseni, özellikle nesnenin karmaşık bir inşa sürecine sahip olduğu durumlarda kullanışlıdır. Bu desen, nesne oluşturma maliyetini düşürerek ve yeni nesnelerin başka nesnelerle aynı başlangıç durumlarına sahip olmasını sağlayarak performans ve bellek kullanımını iyileştirebilir.
+
+İşte TypeScript ile basit bir Prototype deseni örneği:
+
+<CodeGroup>
+
+  ```ts
+  // Prototype (Prototip) arayüzü veya soyut sınıf
+  interface Cloneable {
+  clone(): Cloneable
+}
+
+  // ConcretePrototype (Somut Prototip)
+  class ConcretePrototype implements Cloneable {
+  private property1: string
+  private property2: number
+
+  constructor(property1: string, property2: number) {
+  this.property1 = property1
+  this.property2 = property2
+}
+
+  clone(): Cloneable {
+  // Yeni bir kopya oluşturulur ve mevcut özellikler kopyalanır
+  return new ConcretePrototype(this.property1, this.property2)
+}
+
+  // Diğer metotlar ve özellikler...
+}
+
+  // Kullanım
+  const prototypeInstance1 = new ConcretePrototype("Value 1", 42)
+  const clonedInstance1 = prototypeInstance1.clone()
+
+  console.log(prototypeInstance1) // Orjinal nesne
+  console.log(clonedInstance1) // Kopya nesne
+  ```
+
+</CodeGroup>
+
+<div>
+  Bu örnekte, `Cloneable` arayüzü veya soyut sınıf, klonlama yeteneğini belirtir. `ConcretePrototype` sınıfı, bu arayüzü uygular ve klonlanabilir nesnenin yapısını ve davranışını tanımlar.
+
+  Kullanım örneğinde, `prototypeInstance1` adlı bir orijinal nesne oluşturulur. Ardından, bu nesnenin clone metodunu kullanarak bir kopyası olan `clonedInstance1` oluşturulur. Bu sayede, `clonedInstance1` ve `prototypeInstance1` nesneleri aynı başlangıç durumlarına sahip olur, ancak bağımsız nesnelerdir.
+
+  Prototype deseni, özellikle nesnenin içeriği karmaşık ve nesnenin kopyalanması maliyetli olduğu durumlarda kullanılır.
+
+</div>
