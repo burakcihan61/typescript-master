@@ -6,80 +6,117 @@ export const metadata = {
 
 # Request Handler Axios
 
-TypeScript, JavaScript tabanlı bir programlama dilidir ve genellikle büyük ölçekli uygulamaların geliştirilmesi için kullanılır. TypeScript, JavaScript'in yanı sıra statik tür sistemine sahip olduğu için, kodunuzun daha güvenli ve sürdürülebilir olmasına olanak tanır. Bu nedenle, TypeScript projelerinde tasarım kalıpları, kodun düzenlenmesi, sürdürülebilirliği artırmak ve hataları azaltmak için önemli bir rol oynar.
+Bu kod bir genel HTTP istek işleyicisi (request handler) sağlayan bir util (yardımcı) fonksiyon ve bu fonksiyonun kullanımı için tanımlanmış türleri içerir. Aşağıda kodun açıklamasını bulabilirsiniz:
 
-Design pattern'lar, belirli problemleri çözmek veya belirli durumlarla başa çıkmak için geliştirilmiş genel çözüm şablonlarıdır. TypeScript tasarım kalıpları da aynı prensiplere dayanır ve genellikle aşağıdaki amaçlara hizmet eder:
+1. **`BaseRequest` Türü:**
+- `BaseRequest<T, V>` türü, bir HTTP isteğini temsil eder.
+- `T` parametresi, istek için kullanılan parametre türünü belirtir.
+- `V` parametresi, isteğin başarılı olması durumunda dönen veri türünü belirtir.
 
-<Note>
-  * **Düzen ve Organizasyon**: Design pattern'lar, kodunuzun düzenli ve
-  anlaşılır olmasına yardımcı olabilir. Projenizin büyüklüğü arttıkça, düzenli
-  bir yapıya sahip olmak, kodunuzun bakımını kolaylaştırır.
-  * **Tekrar
-  Kullanım**: Design pattern'lar, belirli bir problemi çözmek için genel bir
-  çözüm sağladığından, bu çözümleri başka yerlerde tekrar kullanabilirsiniz. Bu,
-  kodunuzun daha az tekrar içermesine ve daha az hata içermesine yardımcı
-  olabilir.
-  * **Hata Azaltma**: Design pattern'lar, belirli bir problemin çözümü
-  için test edilmiş ve doğrulanmış bir yaklaşım sunar. Bu nedenle, bu kalıpları
-  kullanmak, hataları azaltmanıza yardımcı olabilir.
-  * **Değişikliklere Direnç**: Tasarım kalıpları, değişikliklere karşı dirençli olacak şekilde
-  tasarlanabilir. Yani, projenizde yapılan değişikliklerin diğer kısımları
-  etkileme olasılığını azaltabilir.
-  * **Performans**: Design pattern'lar,
-  belirli bir problemin çözümü için optimize edilmiş bir yaklaşım sunar. Bu
-  nedenle, bu kalıpları kullanmak, performansı artırmanıza yardımcı olabilir.
-  *  **Ölçeklenebilirlik**: Design pattern'lar, belirli bir problemin çözümü için
-  optimize edilmiş bir yaklaşım sunar. Bu nedenle, bu kalıpları kullanmak,
-  performansı artırmanıza yardımcı olabilir.
-  * **Esneklik**: Design pattern'lar,
-  belirli bir problemin çözümü için optimize edilmiş bir yaklaşım sunar. Bu
-  nedenle, bu kalıpları kullanmak, performansı artırmanıza yardımcı olabilir.
-</Note>
+2. **`SuccessResponse` ve `ErrorResponse` Tipleri:**
+- `SuccessResponse<V>` türü, başarılı bir HTTP isteği sonucunda dönen veriyi temsil eder.
+- `ErrorResponse<E>` türü, bir hata durumunda dönen hatayı temsil eder.
+- `E` parametresi, istek sırasında oluşan hatanın türünü belirtir. Varsayılan olarak `AxiosError` olarak belirlenmiştir.
 
-## Singletons Deseni
+3. **`BaseResponse` Türü:**
+- `BaseResponse<V, E>` türü, bir HTTP isteğinin sonucunu temsil eder.
+- Başarılı bir istek durumunda `SuccessResponse<V>` tipinde bir nesne döner.
+- Hata durumunda `ErrorResponse<E>` tipinde bir nesne döner.
 
-Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olmayı amaçlayan bir tasarım desenidir. TypeScript dilinde de Singleton deseni kullanılabilir, ancak TypeScript'in doğası gereği, bazı dillerdeki gibi tam anlamıyla private constructor (özel kurucu) kullanmak mümkün değildir. Bununla birlikte, Singleton desenini uygulamak için bazı yöntemler vardır.
+4. **`requestHandler` Fonksiyonu:**
+- `requestHandler` fonksiyonu, bir `BaseRequest` türündeki isteği işleyen bir util fonksiyondur.
+- `T`, `V`, ve `E` parametreleri, istek, başarılı cevap ve hata türlerini belirtir.
+- Fonksiyon, isteği alır ve bu isteği işleyen bir fonksiyon döner. Bu dönen fonksiyon, belirtilen parametreleri kullanarak bir HTTP isteği gerçekleştirir.
+- Başarılı bir istek durumunda, `SuccessResponse` tipinde bir nesne döner.
+- Hata durumunda, `ErrorResponse` tipinde bir nesne döner.
 
-İlk olarak, bir sınıfın yalnızca bir örneğini tutmak için bir statik özellik kullanabilirsiniz. Aşağıda, TypeScript ile basit bir Singleton örneği gösterilmektedir:
+5. **İşleyici (Handler) Kullanımı:**
+- Örneğin, `requestHandler` fonksiyonu bir GET isteği için kullanılacaksa, ilgili endpoint ve parametrelerle bir `BaseRequest` fonksiyonu oluşturulmalıdır.
+- Bu oluşturulan fonksiyon, `requestHandler` fonksiyonuna parametre olarak verilerek kullanılır.
+- Kullanım sonucunda, başarılı bir istek durumunda `SuccessResponse` tipinde bir nesne veya hata durumunda `ErrorResponse` tipinde bir nesne elde edilir.
 
-<CodeGroup title="Singleton">
+
+<CodeGroup title="Axios Request Handler">
 
   ```ts
-  class Singleton {
-  private static instance: Singleton | null = null
+  import { AxiosError, AxiosResponse } from "axios";
 
-  private constructor() {
-  // private constructor
-}
+  type BaseRequest<T, V> = (params?: T) => Promise<AxiosResponse<V>>;
 
-  public static getInstance(): Singleton {
-  if (!Singleton.instance) {
-  Singleton.instance = new Singleton()
-}
+  type SuccessResponse<V> = {
+    code: "success";
+    data: V;
+  };
 
-  return Singleton.instance
-}
+    type ErrorResponse<E = AxiosError> = {
+      code: "error";
+      error: E;
+    };
 
-  public doSomething(): void {
-  console.log("Singleton is doing something")
-}
-}
+      type BaseResponse<V, E> = Promise<SuccessResponse<V> | ErrorResponse<E>>;
 
-  // Kullanım örneği
-  const singleton1 = Singleton.getInstance()
-  const singleton2 = Singleton.getInstance()
-
-  console.log(singleton1 === singleton2) // true
+        export const requestHandler =
+        <T, V, E = AxiosError>(request: BaseRequest<T, V>) =>
+        async (params?: T): BaseResponse<V, E> => {
+          try {
+          const response = await request(params);
+          return { code: "success", data: response.data };
+        } catch (e) {
+          return { code: "error", error: e as E };
+        }
+  };
   ```
 
 </CodeGroup>
 
 <div>
-  Bu örnekte, `getInstance` metodu ile Singleton sınıfının tek bir örneğini alabilirsiniz. Eğer daha önce bir örnek oluşturulmamışsa, `getInstance` metodu yeni bir örnek oluşturur ve bu örneği döndürür. Eğer önce bir örnek oluşturulmuşsa, mevcut örneği döndürür.
+  <CodeGroup title="Axios Request Handler Kullanımı">
 
-  Ancak, bu yöntem tam anlamıyla private constructor kullanmaz ve `new Singleton()` ifadesi herhangi bir yerde çağrılabilir. Bu nedenle, sınıfın oluşturulmasını sınırlamak için belirli bir yöntem kullanılması önemlidir.
+  ```ts
+    import axios from "axios";
+    import { requestHandler } from "./requestHandler";
 
-  Bu örnekte, TypeScript'in private constructor özelliği olmadığı için `private constructor()` kullanılarak sınıfın dışından doğrudan bir örneği oluşturulması engellenir. Ancak, dikkatli olunması ve Singleton desenini doğru bir şekilde uygulamak için belirli durumları düşünmek önemlidir.
+    interface Posts {
+    userId: number
+    id: number
+    title: string
+    body: string
+  }
 
+    interface GetPostsParams {
+    limit?: number;
+    page?: number;
+  }
+
+    export const getPosts = requestHandler<GetPostsParams, Posts[]>((params) =>
+    axios.get("/https://jsonplaceholder.typicode.com/posts", { params })
+    );
+  ```
+  </CodeGroup>
+</div>
+
+<div>
+  <CodeGroup title="Postları Getirme">
+
+    ```ts
+    import { getPosts } from "./getPosts";
+
+    export default async function Home() {
+    const postsResponse = await getUsers({ limit: 10, page: 1 });
+
+    if (postsResponse.code === "error") {
+    return <div>{postsResponse.error.message}</div>;
+}
+
+return (
+  <div>
+    {postsResponse.data.map((post) => (
+      <div key={post.id}>{post.title}</div>
+    ))}
+  </div>
+);
+}
+    ```
+  </CodeGroup>
 </div>
 
