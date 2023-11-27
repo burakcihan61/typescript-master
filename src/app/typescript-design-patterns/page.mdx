@@ -488,7 +488,7 @@ Builder deseni, bir nesnenin karmaşık yapısını adım adım oluşturan ve ne
 </CodeGroup>
 
 <div>
-  Bu örnekte, `Product` sınıfı, oluşturulacak nesneyi temsil eder. `Builder` arayüzü, nesnenin inşa edilme sürecini tanımlar. `ConcreteBuilder` sınıfı, `Builder` arayüzünü uygular ve nesnenin farklı parçalarını ekler. Director sınıfı, Builder'ı kullanarak nesneyi inşa eder.
+  Bu örnekte, `Product` sınıfı, oluşturulacak nesneyi temsil eder. `Builder` arayüzü, nesnenin inşa edilme sürecini tanımlar. `ConcreteBuilder` sınıfı, `Builder` arayüzünü uygular ve nesnenin farklı parçalarını ekler. `Director` sınıfı, `Builder`'ı kullanarak nesneyi inşa eder.
 
   Bu sayede, Director sınıfı, nesnenin hangi parçalardan oluşacağını belirler, ancak hangi parçaların eklenip çıkarılacağı ConcreteBuilder sınıfında belirlenir. Bu, nesne oluşturma sürecini daha esnek hale getirir ve farklı varyasyonlarda nesneler oluşturmak için kullanışlıdır.
 
