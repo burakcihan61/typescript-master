@@ -7,7 +7,6 @@ import clsx from "clsx"
 import { AnimatePresence, motion, useIsPresent } from "framer-motion"
 
 import { remToPx } from "@/lib/remToPx"
-import { Button } from "@/components/Button"
 import { useIsInsideMobileNavigation } from "@/components/MobileNavigation"
 import { useSectionStore } from "@/components/SectionProvider"
 import { Tag } from "@/components/Tag"
@@ -238,6 +237,10 @@ export const navigation: Array<NavGroup> = [
         title: "TypeScript Design Patterns",
         href: "/typescript-design-patterns",
       },
+      {
+        title: "TypeScript Tricks",
+        href: "/typescript-tricks",
+      },
     ],
   },
 ]
@@ -246,9 +249,9 @@ export function Navigation(props: React.ComponentPropsWithoutRef<"nav">) {
   return (
     <nav {...props}>
       <ul role="list">
-        <TopLevelNavItem href="/">API</TopLevelNavItem>
-        <TopLevelNavItem href="#">Documentation</TopLevelNavItem>
-        <TopLevelNavItem href="#">Support</TopLevelNavItem>
+        {/*<TopLevelNavItem href="/">API</TopLevelNavItem>*/}
+        {/*<TopLevelNavItem href="#">Documentation</TopLevelNavItem>*/}
+        {/*<TopLevelNavItem href="#">Support</TopLevelNavItem>*/}
         {navigation.map((group, groupIndex) => (
           <NavigationGroup
             key={group.title}

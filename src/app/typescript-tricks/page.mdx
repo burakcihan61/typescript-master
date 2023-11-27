@@ -1,0 +1,85 @@
+export const metadata = {
+  title: "TypeScript Tricks",
+  description:
+    "TypeScript ile ilgili bazı ipuçları ve püf noktaları",
+}
+
+# Request Handler Axios
+
+TypeScript, JavaScript tabanlı bir programlama dilidir ve genellikle büyük ölçekli uygulamaların geliştirilmesi için kullanılır. TypeScript, JavaScript'in yanı sıra statik tür sistemine sahip olduğu için, kodunuzun daha güvenli ve sürdürülebilir olmasına olanak tanır. Bu nedenle, TypeScript projelerinde tasarım kalıpları, kodun düzenlenmesi, sürdürülebilirliği artırmak ve hataları azaltmak için önemli bir rol oynar.
+
+Design pattern'lar, belirli problemleri çözmek veya belirli durumlarla başa çıkmak için geliştirilmiş genel çözüm şablonlarıdır. TypeScript tasarım kalıpları da aynı prensiplere dayanır ve genellikle aşağıdaki amaçlara hizmet eder:
+
+<Note>
+  * **Düzen ve Organizasyon**: Design pattern'lar, kodunuzun düzenli ve
+  anlaşılır olmasına yardımcı olabilir. Projenizin büyüklüğü arttıkça, düzenli
+  bir yapıya sahip olmak, kodunuzun bakımını kolaylaştırır.
+  * **Tekrar
+  Kullanım**: Design pattern'lar, belirli bir problemi çözmek için genel bir
+  çözüm sağladığından, bu çözümleri başka yerlerde tekrar kullanabilirsiniz. Bu,
+  kodunuzun daha az tekrar içermesine ve daha az hata içermesine yardımcı
+  olabilir.
+  * **Hata Azaltma**: Design pattern'lar, belirli bir problemin çözümü
+  için test edilmiş ve doğrulanmış bir yaklaşım sunar. Bu nedenle, bu kalıpları
+  kullanmak, hataları azaltmanıza yardımcı olabilir.
+  * **Değişikliklere Direnç**: Tasarım kalıpları, değişikliklere karşı dirençli olacak şekilde
+  tasarlanabilir. Yani, projenizde yapılan değişikliklerin diğer kısımları
+  etkileme olasılığını azaltabilir.
+  * **Performans**: Design pattern'lar,
+  belirli bir problemin çözümü için optimize edilmiş bir yaklaşım sunar. Bu
+  nedenle, bu kalıpları kullanmak, performansı artırmanıza yardımcı olabilir.
+  *  **Ölçeklenebilirlik**: Design pattern'lar, belirli bir problemin çözümü için
+  optimize edilmiş bir yaklaşım sunar. Bu nedenle, bu kalıpları kullanmak,
+  performansı artırmanıza yardımcı olabilir.
+  * **Esneklik**: Design pattern'lar,
+  belirli bir problemin çözümü için optimize edilmiş bir yaklaşım sunar. Bu
+  nedenle, bu kalıpları kullanmak, performansı artırmanıza yardımcı olabilir.
+</Note>
+
+## Singletons Deseni
+
+Singleton deseni, bir sınıfın yalnızca bir örneğinin olduğundan emin olmayı amaçlayan bir tasarım desenidir. TypeScript dilinde de Singleton deseni kullanılabilir, ancak TypeScript'in doğası gereği, bazı dillerdeki gibi tam anlamıyla private constructor (özel kurucu) kullanmak mümkün değildir. Bununla birlikte, Singleton desenini uygulamak için bazı yöntemler vardır.
+
+İlk olarak, bir sınıfın yalnızca bir örneğini tutmak için bir statik özellik kullanabilirsiniz. Aşağıda, TypeScript ile basit bir Singleton örneği gösterilmektedir:
+
+<CodeGroup title="Singleton">
+
+  ```ts
+  class Singleton {
+  private static instance: Singleton | null = null
+
+  private constructor() {
+  // private constructor
+}
+
+  public static getInstance(): Singleton {
+  if (!Singleton.instance) {
+  Singleton.instance = new Singleton()
+}
+
+  return Singleton.instance
+}
+
+  public doSomething(): void {
+  console.log("Singleton is doing something")
+}
+}
+
+  // Kullanım örneği
+  const singleton1 = Singleton.getInstance()
+  const singleton2 = Singleton.getInstance()
+
+  console.log(singleton1 === singleton2) // true
+  ```
+
+</CodeGroup>
+
+<div>
+  Bu örnekte, `getInstance` metodu ile Singleton sınıfının tek bir örneğini alabilirsiniz. Eğer daha önce bir örnek oluşturulmamışsa, `getInstance` metodu yeni bir örnek oluşturur ve bu örneği döndürür. Eğer önce bir örnek oluşturulmuşsa, mevcut örneği döndürür.
+
+  Ancak, bu yöntem tam anlamıyla private constructor kullanmaz ve `new Singleton()` ifadesi herhangi bir yerde çağrılabilir. Bu nedenle, sınıfın oluşturulmasını sınırlamak için belirli bir yöntem kullanılması önemlidir.
+
+  Bu örnekte, TypeScript'in private constructor özelliği olmadığı için `private constructor()` kullanılarak sınıfın dışından doğrudan bir örneği oluşturulması engellenir. Ancak, dikkatli olunması ve Singleton desenini doğru bir şekilde uygulamak için belirli durumları düşünmek önemlidir.
+
+</div>
+
