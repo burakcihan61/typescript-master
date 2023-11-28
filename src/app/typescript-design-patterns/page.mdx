@@ -494,3 +494,72 @@ Builder deseni, bir nesnenin karmaşık yapısını adım adım oluşturan ve ne
   Bu sayede, `Director` sınıfı, nesnenin hangi parçalardan oluşacağını belirler, ancak hangi parçaların eklenip çıkarılacağı `ConcreteBuilder` sınıfında belirlenir. Bu, nesne oluşturma sürecini daha esnek hale getirir ve farklı varyasyonlarda nesneler oluşturmak için kullanışlıdır.
 
 </div>
+
+## Facade Deseni
+
+
+
+Facade deseni, bir alt sistemdeki nesnelerin karmaşıklığını gizleyen ve bir arayüz sağlayan bir tasarım desenidir. Bu desen, bir alt sistemin iç yapısını müşterilere karşı gizleyerek, alt sistemin kullanımını daha basitleştirir ve daha yüksek seviyeli bir arabirim sunar.
+
+İşte TypeScript ile basit bir Facade deseni örneği:
+
+<CodeGroup title="Facade">
+
+  ```ts
+  // Alt sistem sınıfları
+  class SubsystemA {
+  operationA(): string {
+  return 'Subsystem A operation';
+}
+}
+
+  class SubsystemB {
+  operationB(): string {
+  return 'Subsystem B operation';
+}
+}
+
+  class SubsystemC {
+  operationC(): string {
+  return 'Subsystem C operation';
+}
+}
+
+  // Facade sınıfı
+  class Facade {
+  private subsystemA: SubsystemA;
+  private subsystemB: SubsystemB;
+  private subsystemC: SubsystemC;
+
+  constructor() {
+  this.subsystemA = new SubsystemA();
+  this.subsystemB = new SubsystemB();
+  this.subsystemC = new SubsystemC();
+}
+
+  operation(): string {
+  let result = 'Facade initiates operations:\n';
+  result += this.subsystemA.operationA() + '\n';
+  result += this.subsystemB.operationB() + '\n';
+  result += this.subsystemC.operationC();
+  return result;
+}
+}
+
+  // Kullanım
+  const facade = new Facade();
+  const result = facade.operation();
+  console.log(result);
+
+  ```
+
+</CodeGroup>
+
+<div>
+
+  Bu örnekte, `SubsystemA`, `SubsystemB`, ve `SubsystemC` alt sistem sınıflarını temsil eder. Bu sınıflar, karmaşık işlemleri gerçekleştirir. `Facade` sınıfı ise bu alt sistemleri yöneten ve müşterilere basitleştirilmiş bir arabirim sunan sınıftır.
+
+  Facade deseni, alt sistemlerin iç yapısındaki karmaşıklığı gizleyerek, müşterinin daha basit bir şekilde kullanımını sağlar. Bu, alt sistemlerdeki değişikliklerin müşteri kodunu etkilememesini sağlar. Facade, alt sistemlerin bir arada çalışmasını koordine edebilir ve müşteriye tek bir noktadan erişim sağlar.
+
+  Bu desen, bir uygulamanın çeşitli bileşenlerini birleştiren ve müşteri kodu için basit bir arayüz sunan durumlarda özellikle faydalıdır.
+</div>
