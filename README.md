@@ -11,4 +11,7 @@ Bu proje, TypeScript kullanarak yaygın tasarım desenlerini anlamak ve uygulama
 5. [Prototype Pattern](#prototype-pattern)
 6. [Builder Pattern](#builder-pattern)
 
+## TypeScript Tricks
+1. [Request Handler Axios](#request-handler-axios)
+
 
