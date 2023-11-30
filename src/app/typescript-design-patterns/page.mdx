@@ -629,11 +629,8 @@ Proxy deseni, bir nesnenin yerine geçen bir kontrol noktasıdır ve bu sayede g
 </CodeGroup>
 
 <div>
+  Bu örnekte, `Subject` arayüzü, gerçek öznenin ve proxy'nin uyguladığı arayüzdür. `RealSubject` sınıfı, gerçek işlemleri gerçekleştiren sınıftır. `Proxy` sınıfı ise erişim kontrolü ve loglama gibi ek işlevsellik ekler.
 
-  Bu örnekte, `SubsystemA`, `SubsystemB`, ve `SubsystemC` alt sistem sınıflarını temsil eder. Bu sınıflar, karmaşık işlemleri gerçekleştirir. `Facade` sınıfı ise bu alt sistemleri yöneten ve müşterilere basitleştirilmiş bir arabirim sunan sınıftır.
-
-  Facade deseni, alt sistemlerin iç yapısındaki karmaşıklığı gizleyerek, müşterinin daha basit bir şekilde kullanımını sağlar. Bu, alt sistemlerdeki değişikliklerin müşteri kodunu etkilememesini sağlar. Facade, alt sistemlerin bir arada çalışmasını koordine edebilir ve müşteriye tek bir noktadan erişim sağlar.
-
-  Bu desen, bir uygulamanın çeşitli bileşenlerini birleştiren ve müşteri kodu için basit bir arayüz sunan durumlarda özellikle faydalıdır.
+  Proxy deseni, gerçek nesnenin yaratılması veya kullanılması için ek bir kontrol ekler, böylece gerçek nesnenin yaratılma maliyetinden veya gereksiz işlemlerden kaçınılabilir. Aynı zamanda, erişim kontrolü gibi işlevselliği gerçekleştirebilir ve gerçek nesnenin davranışını kontrol edebilir. Bu sayede, istemci kodu değiştirmeden önce veya sonra ek işlevselliği uygulamak daha kolay olabilir.
 </div>
 
