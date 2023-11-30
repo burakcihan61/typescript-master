@@ -6,7 +6,7 @@ export const metadata = {
 
 ## TypeScript Tricks
 
-# Request Handler Axios
+## Request Handler Axios
 
 Bu kod bir genel HTTP istek işleyicisi (request handler) sağlayan bir util (yardımcı) fonksiyon ve bu fonksiyonun kullanımı için tanımlanmış türleri içerir. Aşağıda kodun açıklamasını bulabilirsiniz:
 
@@ -120,4 +120,53 @@ return (
 }
     ```
   </CodeGroup>
+</div>
+
+## Error Handling
+
+Error Handling (Hata Yönetimi), bir programın çalışma sırasında ortaya çıkan hataları tespit etme, ele alma ve bu hatalarla başa çıkma sürecidir. Hatalar, genellikle beklenmeyen durumları veya uygulama akışını etkileyen problemleri temsil eder. Hata yönetimi, bir programın daha güvenilir, hata toleranslı ve anlaşılır olmasına yardımcı olur.
+
+Hata Yönetimi, aşağıdaki temel adımları içerir:
+
+1. **Hata Tespiti (Error Detection):** Programın çalışması sırasında oluşabilecek hataların tanımlanması ve algılanması. Bu, yanlış kullanım, geçersiz veri girişi veya sistemle ilgili sorunlar gibi çeşitli nedenlere dayanabilir.
+
+2. **Hata Bildirimi (Error Reporting):** Tespit edilen hataların kullanıcıya veya geliştiriciye bildirilmesi. Bu bildirimler genellikle hata mesajları, log kayıtları veya kullanıcı arayüzü üzerinden hata ile ilgili bilgileri içerir.
+
+3. **Hata Ele Alma (Error Handling):** Hataların uygun bir şekilde ele alınması ve programın kontrol akışının bu hatalara göre yönlendirilmesi. Bu, programın çökmesini önlemek, kullanıcıya anlaşılır mesajlar göstermek veya alternatif bir işlem yolu belirlemek gibi şeyleri içerebilir.
+
+4. **Hata Ayıklama (Debugging):** Programın geliştirme sürecinde, hataların kaynağını bulma ve düzeltme süreci. Bu süreç genellikle geliştiricilerin kaynak kodunu inceleyerek, hata ayıklayıcı araçları kullanarak veya log kayıtlarını analiz ederek gerçekleştirilir.
+
+Hata yönetimi, yazılım geliştirme sürecinde önemli bir yere sahiptir çünkü hataların etkili bir şekilde ele alınması, uygulamanın güvenilirliğini artırır, kullanıcı deneyimini iyileştirir ve genel sistem kararlılığını sağlar.
+
+<CodeGroup title="Error Handling">
+```ts
+  /**
+  * İki sayıyı toplayan fonksiyon.
+  * @param {number} a - Toplanacak ilk sayı.
+  * @param {number} b - Toplanacak ikinci sayı.
+  * @returns {number} - Toplama işleminin sonucu.
+  * @throws {Error} - Eğer bir parametre sayı değilse veya eksikse hata fırlatılır.
+  */
+  function addNumbers(a, b) {
+  // Parametreleri kontrol et ve uygun değilse hata fırlat
+  if (typeof a !== 'number' || typeof b !== 'number' || isNaN(a) || isNaN(b)) {
+  throw new Error('Geçerli sayısal parametreler bekleniyor');
+}
+
+  return a + b;
+}
+
+  // Örnek kullanım
+  try {
+  const result = addNumbers(5, 'Merhaba'); // Hata oluşturacak bir örnek
+  console.log('Sonuç:', result);
+} catch (error) {
+  console.error('Hata yakalandı:', error.message);
+}
+
+  ```
+</CodeGroup>
+
+<div>
+  Bu örnekte, `addNumbers` adlı bir fonksiyon tanımlanmıştır. Bu fonksiyon, iki sayıyı toplar, ancak parametrelerin uygun olup olmadığını kontrol eder. Eğer parametreler uygun değilse, bir `Error` nesnesi fırlatılır ve bu hata, `try-catch` bloğu içinde yakalanarak uygun bir şekilde işlenir. Bu, fonksiyonun hataya dayanıklı ve güvenli bir şekilde kullanılmasını sağlar.
 </div>
