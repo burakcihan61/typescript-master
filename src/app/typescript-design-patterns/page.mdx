@@ -575,50 +575,54 @@ Proxy deseni, bir nesnenin yerine geçen bir kontrol noktasıdır ve bu sayede g
 <CodeGroup title="Proxy">
 
   ```ts
-  // Alt sistem sınıfları
-  class SubsystemA {
-  operationA(): string {
-  return 'Subsystem A operation';
+  // Temel öznenin arayüzü
+  interface Subject {
+  request(): void;
+}
+
+  // Gerçek özne sınıfı
+  class RealSubject implements Subject {
+  request(): void {
+  console.log('RealSubject: Handling request.');
 }
 }
 
-  class SubsystemB {
-  operationB(): string {
-  return 'Subsystem B operation';
-}
+  // Proxy sınıfı
+  class Proxy implements Subject {
+  private realSubject: RealSubject;
+
+  constructor(realSubject: RealSubject) {
+  this.realSubject = realSubject;
 }
 
-  class SubsystemC {
-  operationC(): string {
-  return 'Subsystem C operation';
-}
-}
-
-  // Facade sınıfı
-  class Facade {
-  private subsystemA: SubsystemA;
-  private subsystemB: SubsystemB;
-  private subsystemC: SubsystemC;
-
-  constructor() {
-  this.subsystemA = new SubsystemA();
-  this.subsystemB = new SubsystemB();
-  this.subsystemC = new SubsystemC();
+  private checkAccess(): boolean {
+  console.log('Proxy: Checking access.');
+  // Burada gerçek bir erişim kontrolü gerçekleştirilebilir.
+  return true;
 }
 
-  operation(): string {
-  let result = 'Facade initiates operations:\n';
-  result += this.subsystemA.operationA() + '\n';
-  result += this.subsystemB.operationB() + '\n';
-  result += this.subsystemC.operationC();
-  return result;
+  private logAccess(): void {
+  console.log('Proxy: Logging access.');
+}
+
+  request(): void {
+  if (this.checkAccess()) {
+  this.realSubject.request();
+  this.logAccess();
+}
 }
 }
 
   // Kullanım
-  const facade = new Facade();
-  const result = facade.operation();
-  console.log(result);
+  const realSubject = new RealSubject();
+  const proxy = new Proxy(realSubject);
+
+  // Gerçek özneye doğrudan erişim
+  realSubject.request();
+
+  // Proxy üzerinden erişim
+  proxy.request();
+
 
   ```
 
