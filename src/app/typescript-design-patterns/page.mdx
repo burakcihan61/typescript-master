@@ -644,56 +644,68 @@ Iterator deseni, bir nesne koleksiyonu üzerinde sırayla gezinmek için bir ara
 <CodeGroup title="Iterator ">
 
   ```ts
-  // Temel öznenin arayüzü
-  interface Subject {
-  request(): void;
+  // Iterator arayüzü
+  interface Iterator<T> {
+  next(): T;
+  hasNext(): boolean;
 }
 
-  // Gerçek özne sınıfı
-  class RealSubject implements Subject {
-  request(): void {
-  console.log('RealSubject: Handling request.');
-}
-}
+  // Aggregate arayüzü
+  interface Aggregate<T> {
+    createIterator(): Iterator<T>;
+  }
 
-  // Proxy sınıfı
-  class Proxy implements Subject {
-  private realSubject: RealSubject;
+    // ConcreteAggregate sınıfı
+    class ConcreteAggregate<T> implements Aggregate<T> {
+      private items: T[] = [];
 
-  constructor(realSubject: RealSubject) {
-  this.realSubject = realSubject;
-}
+      addItem(item: T): void {
+      this.items.push(item);
+    }
 
-  private checkAccess(): boolean {
-  console.log('Proxy: Checking access.');
-  // Burada gerçek bir erişim kontrolü gerçekleştirilebilir.
-  return true;
-}
+      createIterator(): Iterator<T> {
+      return new ConcreteIterator<T>(this);
+    }
 
-  private logAccess(): void {
-  console.log('Proxy: Logging access.');
-}
+      getItems(): T[] {
+      return this.items;
+    }
+    }
 
-  request(): void {
-  if (this.checkAccess()) {
-  this.realSubject.request();
-  this.logAccess();
-}
-}
-}
+      // ConcreteIterator sınıfı
+      class ConcreteIterator<T> implements Iterator<T> {
+        private aggregate: ConcreteAggregate<T>;
+        private index: number = 0;
 
-  // Kullanım
-  const realSubject = new RealSubject();
-  const proxy = new Proxy(realSubject);
+        constructor(aggregate: ConcreteAggregate<T>) {
+        this.aggregate = aggregate;
+      }
 
-  // Gerçek özneye doğrudan erişim
-  realSubject.request();
+        next(): T {
+        const currentItem = this.aggregate.getItems()[this.index];
+        this.index++;
+        return currentItem;
+      }
 
-  // Proxy üzerinden erişim
-  proxy.request();
+        hasNext(): boolean {
+        return this.index < this.aggregate.getItems().length;
+      }
+      }
 
+        // Kullanım
+        const aggregate = new ConcreteAggregate<number>();
+          aggregate.addItem(1);
+          aggregate.addItem(2);
+          aggregate.addItem(3);
 
-  ```
+          const iterator = aggregate.createIterator();
+
+          while (iterator.hasNext()) {
+            const currentItem = iterator.next();
+            console.log(`Item: ${currentItem}`);
+          }
+
+          ```
 
 </CodeGroup>
 
