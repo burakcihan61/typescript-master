@@ -710,7 +710,7 @@ Iterator deseni, bir nesne koleksiyonu üzerinde sırayla gezinmek için bir ara
 </CodeGroup>
 
 <div>
-  Bu örnekte, `Subject` arayüzü, gerçek öznenin ve proxy'nin uyguladığı arayüzdür. `RealSubject` sınıfı, gerçek işlemleri gerçekleştiren sınıftır. `Proxy` sınıfı ise erişim kontrolü ve loglama gibi ek işlevsellik ekler.
+  Bu örnekte, `Iterator` arayüzü, koleksiyon üzerinde gezinme işlemlerini tanımlar. `Aggregate` arayüzü ise bu koleksiyonları oluşturacak sınıflar için bir arayüz sağlar. `ConcreteAggregate` sınıfı, koleksiyonu temsil eder ve `ConcreteIterator` sınıfı, bu koleksiyon üzerinde gezinme işlemlerini uygular.
 
-  Proxy deseni, gerçek nesnenin yaratılması veya kullanılması için ek bir kontrol ekler, böylece gerçek nesnenin yaratılma maliyetinden veya gereksiz işlemlerden kaçınılabilir. Aynı zamanda, erişim kontrolü gibi işlevselliği gerçekleştirebilir ve gerçek nesnenin davranışını kontrol edebilir. Bu sayede, istemci kodu değiştirmeden önce veya sonra ek işlevselliği uygulamak daha kolay olabilir.
+  Iterator deseni, koleksiyonun iç yapısını gizler ve istemcilerin koleksiyon üzerinde dolaşmasını standartlaştırır. Bu sayede, koleksiyonun iç yapısı değişse bile istemci kodunu değiştirmeye gerek kalmaz. Aynı zamanda, koleksiyon üzerinde farklı gezinme algoritmaları uygulanabilir ve istemci kodu değiştirmeden bu algoritmalar kullanılabilir.
 </div>
