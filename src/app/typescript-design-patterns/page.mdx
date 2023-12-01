@@ -634,3 +634,73 @@ Proxy deseni, bir nesnenin yerine geçen bir kontrol noktasıdır ve bu sayede g
   Proxy deseni, gerçek nesnenin yaratılması veya kullanılması için ek bir kontrol ekler, böylece gerçek nesnenin yaratılma maliyetinden veya gereksiz işlemlerden kaçınılabilir. Aynı zamanda, erişim kontrolü gibi işlevselliği gerçekleştirebilir ve gerçek nesnenin davranışını kontrol edebilir. Bu sayede, istemci kodu değiştirmeden önce veya sonra ek işlevselliği uygulamak daha kolay olabilir.
 </div>
 
+## Iterator  Deseni
+
+
+
+
+Iterator deseni, bir nesne koleksiyonu üzerinde sırayla gezinmek için bir arayüz sağlayan ve bu koleksiyonun altında bulunan elemanlara erişimi standartlaştıran bir tasarım desenidir. Iterator deseni, koleksiyonun iç yapısını gizler ve istemcilerin koleksiyon üzerinde gezinmeyi basitleştirir.
+
+İşte TypeScript ile basit bir Iterator deseni örneği:
+
+<CodeGroup title="Iterator ">
+
+  ```ts
+  // Temel öznenin arayüzü
+  interface Subject {
+  request(): void;
+}
+
+  // Gerçek özne sınıfı
+  class RealSubject implements Subject {
+  request(): void {
+  console.log('RealSubject: Handling request.');
+}
+}
+
+  // Proxy sınıfı
+  class Proxy implements Subject {
+  private realSubject: RealSubject;
+
+  constructor(realSubject: RealSubject) {
+  this.realSubject = realSubject;
+}
+
+  private checkAccess(): boolean {
+  console.log('Proxy: Checking access.');
+  // Burada gerçek bir erişim kontrolü gerçekleştirilebilir.
+  return true;
+}
+
+  private logAccess(): void {
+  console.log('Proxy: Logging access.');
+}
+
+  request(): void {
+  if (this.checkAccess()) {
+  this.realSubject.request();
+  this.logAccess();
+}
+}
+}
+
+  // Kullanım
+  const realSubject = new RealSubject();
+  const proxy = new Proxy(realSubject);
+
+  // Gerçek özneye doğrudan erişim
+  realSubject.request();
+
+  // Proxy üzerinden erişim
+  proxy.request();
+
+
+  ```
+
+</CodeGroup>
+
+<div>
+  Bu örnekte, `Subject` arayüzü, gerçek öznenin ve proxy'nin uyguladığı arayüzdür. `RealSubject` sınıfı, gerçek işlemleri gerçekleştiren sınıftır. `Proxy` sınıfı ise erişim kontrolü ve loglama gibi ek işlevsellik ekler.
+
+  Proxy deseni, gerçek nesnenin yaratılması veya kullanılması için ek bir kontrol ekler, böylece gerçek nesnenin yaratılma maliyetinden veya gereksiz işlemlerden kaçınılabilir. Aynı zamanda, erişim kontrolü gibi işlevselliği gerçekleştirebilir ve gerçek nesnenin davranışını kontrol edebilir. Bu sayede, istemci kodu değiştirmeden önce veya sonra ek işlevselliği uygulamak daha kolay olabilir.
+</div>
