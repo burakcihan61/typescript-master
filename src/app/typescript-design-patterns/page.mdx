@@ -724,73 +724,52 @@ Adapter deseni, bir sınıfın arabirimini, başka bir sınıfın beklediği ara
 <CodeGroup title="Adapter">
 
   ```ts
-  // Iterator arayüzü
-  interface Iterator<T> {
-  next(): T;
-  hasNext(): boolean;
+  // Hedef Arabirim
+  interface Target {
+  request(): string;
 }
 
-  // Aggregate arayüzü
-  interface Aggregate<T> {
-    createIterator(): Iterator<T>;
-  }
+  // Hedefe Uygun Sınıf
+  class ConcreteTarget implements Target {
+  request(): string {
+  return 'ConcreteTarget: The default behavior.';
+}
+}
 
-    // ConcreteAggregate sınıfı
-    class ConcreteAggregate<T> implements Aggregate<T> {
-      private items: T[] = [];
+  // Kaynak Sınıf
+  class Adaptee {
+  specificRequest(): string {
+  return 'Adaptee: The specific behavior.';
+}
+}
 
-      addItem(item: T): void {
-      this.items.push(item);
-    }
+  // Adaptör Sınıfı
+  class Adapter implements Target {
+  private adaptee: Adaptee;
 
-      createIterator(): Iterator<T> {
-      return new ConcreteIterator<T>(this);
-    }
+  constructor(adaptee: Adaptee) {
+  this.adaptee = adaptee;
+}
 
-      getItems(): T[] {
-      return this.items;
-    }
-    }
+  request(): string {
+  return `Adapter: (Translated) ${this.adaptee.specificRequest()}`;
+}
+}
 
-      // ConcreteIterator sınıfı
-      class ConcreteIterator<T> implements Iterator<T> {
-        private aggregate: ConcreteAggregate<T>;
-        private index: number = 0;
+  // Kullanım
+  const target: Target = new ConcreteTarget();
+  console.log(target.request());
 
-        constructor(aggregate: ConcreteAggregate<T>) {
-        this.aggregate = aggregate;
-      }
+  const adaptee: Adaptee = new Adaptee();
+  const adapter: Target = new Adapter(adaptee);
+  console.log(adapter.request());
 
-        next(): T {
-        const currentItem = this.aggregate.getItems()[this.index];
-        this.index++;
-        return currentItem;
-      }
-
-        hasNext(): boolean {
-        return this.index < this.aggregate.getItems().length;
-      }
-      }
-
-        // Kullanım
-        const aggregate = new ConcreteAggregate<number>();
-          aggregate.addItem(1);
-          aggregate.addItem(2);
-          aggregate.addItem(3);
-
-          const iterator = aggregate.createIterator();
-
-          while (iterator.hasNext()) {
-            const currentItem = iterator.next();
-            console.log(`Item: ${currentItem}`);
-          }
-
-          ```
+  ```
 
 </CodeGroup>
 
 <div>
-  Bu örnekte, `Iterator` arayüzü, koleksiyon üzerinde gezinme işlemlerini tanımlar. `Aggregate` arayüzü ise bu koleksiyonları oluşturacak sınıflar için bir arayüz sağlar. `ConcreteAggregate` sınıfı, koleksiyonu temsil eder ve `ConcreteIterator` sınıfı, bu koleksiyon üzerinde gezinme işlemlerini uygular.
+  Bu örnekte, `Target` arabirimi, istemcinin beklediği standart arabirimi temsil eder. `ConcreteTarget` sınıfı, bu arabirimi uygular. `Adaptee` sınıfı, mevcut ancak istemcinin beklediği arabirime sahip olmayan bir sınıfı temsil eder. `Adapter` sınıfı, `Adaptee` sınıfını kullanarak `Target` arabirimini uygular. Bu sayede, `Adapter` sınıfı, `Adaptee` sınıfının özelliklerini `Target` arabirimine uyacak şekilde dönüştürür.
 
-  Iterator deseni, koleksiyonun iç yapısını gizler ve istemcilerin koleksiyon üzerinde dolaşmasını standartlaştırır. Bu sayede, koleksiyonun iç yapısı değişse bile istemci kodunu değiştirmeye gerek kalmaz. Aynı zamanda, koleksiyon üzerinde farklı gezinme algoritmaları uygulanabilir ve istemci kodu değiştirmeden bu algoritmalar kullanılabilir.
+  Adapter deseni, mevcut sınıfların uyumlu bir şekilde birlikte çalışmasını sağlar ve mevcut kodun yeniden kullanılmasını kolaylaştırır. Adapter, uyumsuz sınıflar arasında bir ara birimi sağlayarak sistemdeki esnekliği artırır.
 </div>
