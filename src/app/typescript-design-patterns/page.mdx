@@ -714,3 +714,84 @@ Iterator deseni, bir nesne koleksiyonu üzerinde sırayla gezinmek için bir ara
 
   Iterator deseni, koleksiyonun iç yapısını gizler ve istemcilerin koleksiyon üzerinde dolaşmasını standartlaştırır. Bu sayede, koleksiyonun iç yapısı değişse bile istemci kodunu değiştirmeye gerek kalmaz. Aynı zamanda, koleksiyon üzerinde farklı gezinme algoritmaları uygulanabilir ve istemci kodu değiştirmeden bu algoritmalar kullanılabilir.
 </div>
+
+## Adapter Deseni
+
+
+Iterator deseni, bir nesne koleksiyonu üzerinde sırayla gezinmek için bir arayüz sağlayan ve bu koleksiyonun altında bulunan elemanlara erişimi standartlaştıran bir tasarım desenidir. Iterator deseni, koleksiyonun iç yapısını gizler ve istemcilerin koleksiyon üzerinde gezinmeyi basitleştirir.
+
+İşte TypeScript ile basit bir Iterator deseni örneği:
+
+<CodeGroup title="Iterator ">
+
+  ```ts
+  // Iterator arayüzü
+  interface Iterator<T> {
+  next(): T;
+  hasNext(): boolean;
+}
+
+  // Aggregate arayüzü
+  interface Aggregate<T> {
+    createIterator(): Iterator<T>;
+  }
+
+    // ConcreteAggregate sınıfı
+    class ConcreteAggregate<T> implements Aggregate<T> {
+      private items: T[] = [];
+
+      addItem(item: T): void {
+      this.items.push(item);
+    }
+
+      createIterator(): Iterator<T> {
+      return new ConcreteIterator<T>(this);
+    }
+
+      getItems(): T[] {
+      return this.items;
+    }
+    }
+
+      // ConcreteIterator sınıfı
+      class ConcreteIterator<T> implements Iterator<T> {
+        private aggregate: ConcreteAggregate<T>;
+        private index: number = 0;
+
+        constructor(aggregate: ConcreteAggregate<T>) {
+        this.aggregate = aggregate;
+      }
+
+        next(): T {
+        const currentItem = this.aggregate.getItems()[this.index];
+        this.index++;
+        return currentItem;
+      }
+
+        hasNext(): boolean {
+        return this.index < this.aggregate.getItems().length;
+      }
+      }
+
+        // Kullanım
+        const aggregate = new ConcreteAggregate<number>();
+          aggregate.addItem(1);
+          aggregate.addItem(2);
+          aggregate.addItem(3);
+
+          const iterator = aggregate.createIterator();
+
+          while (iterator.hasNext()) {
+            const currentItem = iterator.next();
+            console.log(`Item: ${currentItem}`);
+          }
+
+          ```
+
+</CodeGroup>
+
+<div>
+  Bu örnekte, `Iterator` arayüzü, koleksiyon üzerinde gezinme işlemlerini tanımlar. `Aggregate` arayüzü ise bu koleksiyonları oluşturacak sınıflar için bir arayüz sağlar. `ConcreteAggregate` sınıfı, koleksiyonu temsil eder ve `ConcreteIterator` sınıfı, bu koleksiyon üzerinde gezinme işlemlerini uygular.
+
+  Iterator deseni, koleksiyonun iç yapısını gizler ve istemcilerin koleksiyon üzerinde dolaşmasını standartlaştırır. Bu sayede, koleksiyonun iç yapısı değişse bile istemci kodunu değiştirmeye gerek kalmaz. Aynı zamanda, koleksiyon üzerinde farklı gezinme algoritmaları uygulanabilir ve istemci kodu değiştirmeden bu algoritmalar kullanılabilir.
+</div>
