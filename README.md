@@ -14,6 +14,7 @@ Bu proje, TypeScript kullanarak yaygın tasarım desenlerini anlamak ve uygulama
 8. [Proxy Pattern](#proxy-pattern)
 9. [Iterator Pattern](#iterator-pattern)
 10. [Adapter Pattern](#adapter-pattern)
+11. [Bridge Pattern](#bridge-pattern)
 
 ## TypeScript Tricks
 1. [Request Handler Axios](#request-handler-axios)
