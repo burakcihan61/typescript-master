@@ -773,3 +773,62 @@ Adapter deseni, bir sınıfın arabirimini, başka bir sınıfın beklediği ara
 
   Adapter deseni, mevcut sınıfların uyumlu bir şekilde birlikte çalışmasını sağlar ve mevcut kodun yeniden kullanılmasını kolaylaştırır. Adapter, uyumsuz sınıflar arasında bir ara birimi sağlayarak sistemdeki esnekliği artırır.
 </div>
+
+## Bridge Deseni
+
+Adapter deseni, bir sınıfın arabirimini, başka bir sınıfın beklediği arabirime dönüştüren bir yapısal tasarım desenidir. Bu desen, uyumsuz arabirimlere sahip sınıfların birbirleriyle etkileşimini sağlar.
+
+İşte TypeScript ile basit bir Adapter deseni örneği:
+
+<CodeGroup title="Adapter">
+
+  ```ts
+  // Hedef Arabirim
+  interface Target {
+  request(): string;
+}
+
+  // Hedefe Uygun Sınıf
+  class ConcreteTarget implements Target {
+  request(): string {
+  return 'ConcreteTarget: The default behavior.';
+}
+}
+
+  // Kaynak Sınıf
+  class Adaptee {
+  specificRequest(): string {
+  return 'Adaptee: The specific behavior.';
+}
+}
+
+  // Adaptör Sınıfı
+  class Adapter implements Target {
+  private adaptee: Adaptee;
+
+  constructor(adaptee: Adaptee) {
+  this.adaptee = adaptee;
+}
+
+  request(): string {
+  return `Adapter: (Translated) ${this.adaptee.specificRequest()}`;
+}
+}
+
+  // Kullanım
+  const target: Target = new ConcreteTarget();
+  console.log(target.request());
+
+  const adaptee: Adaptee = new Adaptee();
+  const adapter: Target = new Adapter(adaptee);
+  console.log(adapter.request());
+
+  ```
+
+</CodeGroup>
+
+<div>
+  Bu örnekte, `Target` arabirimi, istemcinin beklediği standart arabirimi temsil eder. `ConcreteTarget` sınıfı, bu arabirimi uygular. `Adaptee` sınıfı, mevcut ancak istemcinin beklediği arabirime sahip olmayan bir sınıfı temsil eder. `Adapter` sınıfı, `Adaptee` sınıfını kullanarak `Target` arabirimini uygular. Bu sayede, `Adapter` sınıfı, `Adaptee` sınıfının özelliklerini `Target` arabirimine uyacak şekilde dönüştürür.
+
+  Adapter deseni, mevcut sınıfların uyumlu bir şekilde birlikte çalışmasını sağlar ve mevcut kodun yeniden kullanılmasını kolaylaştırır. Adapter, uyumsuz sınıflar arasında bir ara birimi sağlayarak sistemdeki esnekliği artırır.
+</div>
