@@ -918,3 +918,76 @@ Bridge deseni, bir sınıfın uygulama ve soyutlama detaylarını ayıran ve bu 
 
   Composite deseni, tek bir nesne ile grup nesnelerini kullanma yeteneği sağlar. Bu sayede, müşteri kodu tek bir nesne veya grup nesneleriyle aynı şekilde etkileşimde bulunabilir. Composite deseni, hiyerarşik nesneleri bir arada kullanmak istediğiniz durumlarda kullanışlıdır.
 </div>
+
+## Composite Deseni
+
+Bridge deseni, bir sınıfın uygulama ve soyutlama detaylarını ayıran ve bu iki hiyerarşiyi birbirinden bağımsız hale getiren bir yapısal tasarım desenidir. Bu desen, genişletilebilir ve değiştirilebilir bir tasarım oluşturmayı amaçlar.
+
+İşte TypeScript ile basit bir Bridge deseni örneği:
+
+<CodeGroup title="Composite">
+
+  ```ts
+  // Component arayüzü
+  interface Component {
+  operation(): string;
+}
+
+  // Leaf sınıfı: Tek bir nesneyi temsil eder
+  class Leaf implements Component {
+  private name: string;
+
+  constructor(name: string) {
+  this.name = name;
+}
+
+  operation(): string {
+  return `Leaf(${this.name}): Operation`;
+}
+}
+
+  // Composite sınıfı: Grup nesnesini temsil eder
+  class Composite implements Component {
+  private children: Component[] = [];
+
+  add(component: Component): void {
+  this.children.push(component);
+}
+
+  remove(component: Component): void {
+  this.children = this.children.filter((c) => c !== component);
+}
+
+  operation(): string {
+  const results: string[] = [];
+  for (const child of this.children) {
+  results.push(child.operation());
+}
+  return `Composite: [${results.join(', ')}]`;
+}
+}
+
+  // Kullanım
+  const leaf1 = new Leaf('Leaf1');
+  const leaf2 = new Leaf('Leaf2');
+  const leaf3 = new Leaf('Leaf3');
+
+  const composite = new Composite();
+  composite.add(leaf1);
+  composite.add(leaf2);
+
+  const composite2 = new Composite();
+  composite2.add(leaf3);
+  composite2.add(composite);
+
+  console.log(composite2.operation());
+
+  ```
+
+</CodeGroup>
+
+<div>
+  Bu örnekte, `Component` arayüzü, hem yaprak nesneleri (Leaf) hem de grup nesneleri (Composite) için bir arayüz sağlar. `Leaf` sınıfı, tek bir nesneyi temsil eder. `Composite` sınıfı ise grup nesnesini temsil eder ve içinde birden çok `Component` saklar.
+
+  Composite deseni, tek bir nesne ile grup nesnelerini kullanma yeteneği sağlar. Bu sayede, müşteri kodu tek bir nesne veya grup nesneleriyle aynı şekilde etkileşimde bulunabilir. Composite deseni, hiyerarşik nesneleri bir arada kullanmak istediğiniz durumlarda kullanışlıdır.
+</div>
