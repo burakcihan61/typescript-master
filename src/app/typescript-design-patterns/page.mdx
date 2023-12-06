@@ -919,13 +919,13 @@ Bridge deseni, bir sınıfın uygulama ve soyutlama detaylarını ayıran ve bu 
   Composite deseni, tek bir nesne ile grup nesnelerini kullanma yeteneği sağlar. Bu sayede, müşteri kodu tek bir nesne veya grup nesneleriyle aynı şekilde etkileşimde bulunabilir. Composite deseni, hiyerarşik nesneleri bir arada kullanmak istediğiniz durumlarda kullanışlıdır.
 </div>
 
-## Composite Deseni
+## Flyweight Deseni
 
-Bridge deseni, bir sınıfın uygulama ve soyutlama detaylarını ayıran ve bu iki hiyerarşiyi birbirinden bağımsız hale getiren bir yapısal tasarım desenidir. Bu desen, genişletilebilir ve değiştirilebilir bir tasarım oluşturmayı amaçlar.
+Flyweight deseni, bir nesnenin paylaşılabilir (tekrar kullanılabilir) özelliklerini ve durumunu ayrıştıran bir yapısal tasarım desenidir. Bu desen, büyük miktarlarda benzer nesneler oluşturulduğunda ve bu nesnelerin birçoğunun aynı verilere sahip olduğunda kullanılır. Böylece, bellek kullanımını azaltarak performansı artırmayı amaçlar.
 
-İşte TypeScript ile basit bir Bridge deseni örneği:
+İşte TypeScript ile basit bir Flyweight deseni örneği:
 
-<CodeGroup title="Composite">
+<CodeGroup title="Flyweight">
 
   ```ts
   // Component arayüzü

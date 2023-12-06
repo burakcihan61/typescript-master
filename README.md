@@ -16,6 +16,7 @@ Bu proje, TypeScript kullanarak yaygın tasarım desenlerini anlamak ve uygulama
 10. [Adapter Pattern](#adapter-pattern)
 11. [Bridge Pattern](#bridge-pattern)
 12. [Composite Pattern](#composite-pattern)
+13. [Flyweight Pattern](#flyweight-pattern)
 
 ## TypeScript Tricks
 1. [Request Handler Axios](#request-handler-axios)
