@@ -928,66 +928,60 @@ Flyweight deseni, bir nesnenin paylaşılabilir (tekrar kullanılabilir) özelli
 <CodeGroup title="Flyweight">
 
   ```ts
-  // Component arayüzü
-  interface Component {
-  operation(): string;
+  // Flyweight arayüzü
+  interface Flyweight {
+  operation(extrinsicState: string): string;
 }
 
-  // Leaf sınıfı: Tek bir nesneyi temsil eder
-  class Leaf implements Component {
-  private name: string;
+  // ConcreteFlyweight sınıfı: Paylaşılan nesne
+  class ConcreteFlyweight implements Flyweight {
+  private intrinsicState: string;
 
-  constructor(name: string) {
-  this.name = name;
+  constructor(intrinsicState: string) {
+  this.intrinsicState = intrinsicState;
 }
 
-  operation(): string {
-  return `Leaf(${this.name}): Operation`;
+  operation(extrinsicState: string): string {
+  return `ConcreteFlyweight: Intrinsic(${this.intrinsicState}), Extrinsic(${extrinsicState})`;
 }
 }
 
-  // Composite sınıfı: Grup nesnesini temsil eder
-  class Composite implements Component {
-  private children: Component[] = [];
+  // Flyweight Factory sınıfı: Paylaşılan nesneleri yönetir
+  class FlyweightFactory {
+  private flyweights: { [key: string]: Flyweight } = {};
 
-  add(component: Component): void {
-  this.children.push(component);
+  getFlyweight(key: string): Flyweight {
+  if (!this.flyweights[key]) {
+  this.flyweights[key] = new ConcreteFlyweight(key);
+}
+  return this.flyweights[key];
 }
 
-  remove(component: Component): void {
-  this.children = this.children.filter((c) => c !== component);
-}
-
-  operation(): string {
-  const results: string[] = [];
-  for (const child of this.children) {
-  results.push(child.operation());
-}
-  return `Composite: [${results.join(', ')}]`;
+  getFlyweightCount(): number {
+  return Object.keys(this.flyweights).length;
 }
 }
 
   // Kullanım
-  const leaf1 = new Leaf('Leaf1');
-  const leaf2 = new Leaf('Leaf2');
-  const leaf3 = new Leaf('Leaf3');
+  const factory = new FlyweightFactory();
 
-  const composite = new Composite();
-  composite.add(leaf1);
-  composite.add(leaf2);
+  const flyweight1 = factory.getFlyweight('A');
+  console.log(flyweight1.operation('X'));
 
-  const composite2 = new Composite();
-  composite2.add(leaf3);
-  composite2.add(composite);
+  const flyweight2 = factory.getFlyweight('B');
+  console.log(flyweight2.operation('Y'));
 
-  console.log(composite2.operation());
+  const flyweight3 = factory.getFlyweight('A');
+  console.log(flyweight3.operation('Z'));
+
+  console.log(`Number of flyweights created: ${factory.getFlyweightCount()}`);
 
   ```
 
 </CodeGroup>
 
 <div>
-  Bu örnekte, `Component` arayüzü, hem yaprak nesneleri (Leaf) hem de grup nesneleri (Composite) için bir arayüz sağlar. `Leaf` sınıfı, tek bir nesneyi temsil eder. `Composite` sınıfı ise grup nesnesini temsil eder ve içinde birden çok `Component` saklar.
+  Bu örnekte, `Flyweight` arayüzü paylaşılabilir nesnelerin işlevselliğini tanımlar. `ConcreteFlyweight` sınıfı, bu arayüzü uygular ve paylaşılan nesnenin özelliklerini temsil eder. `FlyweightFactory` sınıfı, paylaşılan nesneleri yönetir ve bu nesneleri oluşturur. Kullanıcılar bu fabrikadan paylaşılan nesneleri alabilir.
 
-  Composite deseni, tek bir nesne ile grup nesnelerini kullanma yeteneği sağlar. Bu sayede, müşteri kodu tek bir nesne veya grup nesneleriyle aynı şekilde etkileşimde bulunabilir. Composite deseni, hiyerarşik nesneleri bir arada kullanmak istediğiniz durumlarda kullanışlıdır.
+  Flyweight deseni, benzer nesnelerin paylaşılabilir özelliklerini bir araya getirerek bellek kullanımını azaltır. Bu özellikle büyük veri setleri veya benzer nesnelerin çok sayıda oluşturulduğu senaryolarda performans artışı sağlar.
 </div>
