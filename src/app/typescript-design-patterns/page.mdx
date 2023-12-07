@@ -985,3 +985,70 @@ Flyweight deseni, bir nesnenin paylaşılabilir (tekrar kullanılabilir) özelli
 
   Flyweight deseni, benzer nesnelerin paylaşılabilir özelliklerini bir araya getirerek bellek kullanımını azaltır. Bu özellikle büyük veri setleri veya benzer nesnelerin çok sayıda oluşturulduğu senaryolarda performans artışı sağlar.
 </div>
+
+## Command Deseni
+
+Flyweight deseni, bir nesnenin paylaşılabilir (tekrar kullanılabilir) özelliklerini ve durumunu ayrıştıran bir yapısal tasarım desenidir. Bu desen, büyük miktarlarda benzer nesneler oluşturulduğunda ve bu nesnelerin birçoğunun aynı verilere sahip olduğunda kullanılır. Böylece, bellek kullanımını azaltarak performansı artırmayı amaçlar.
+
+İşte TypeScript ile basit bir Flyweight deseni örneği:
+
+<CodeGroup title="Command">
+
+  ```ts
+  // Flyweight arayüzü
+  interface Flyweight {
+  operation(extrinsicState: string): string;
+}
+
+  // ConcreteFlyweight sınıfı: Paylaşılan nesne
+  class ConcreteFlyweight implements Flyweight {
+  private intrinsicState: string;
+
+  constructor(intrinsicState: string) {
+  this.intrinsicState = intrinsicState;
+}
+
+  operation(extrinsicState: string): string {
+  return `ConcreteFlyweight: Intrinsic(${this.intrinsicState}), Extrinsic(${extrinsicState})`;
+}
+}
+
+  // Flyweight Factory sınıfı: Paylaşılan nesneleri yönetir
+  class FlyweightFactory {
+  private flyweights: { [key: string]: Flyweight } = {};
+
+  getFlyweight(key: string): Flyweight {
+  if (!this.flyweights[key]) {
+  this.flyweights[key] = new ConcreteFlyweight(key);
+}
+  return this.flyweights[key];
+}
+
+  getFlyweightCount(): number {
+  return Object.keys(this.flyweights).length;
+}
+}
+
+  // Kullanım
+  const factory = new FlyweightFactory();
+
+  const flyweight1 = factory.getFlyweight('A');
+  console.log(flyweight1.operation('X'));
+
+  const flyweight2 = factory.getFlyweight('B');
+  console.log(flyweight2.operation('Y'));
+
+  const flyweight3 = factory.getFlyweight('A');
+  console.log(flyweight3.operation('Z'));
+
+  console.log(`Number of flyweights created: ${factory.getFlyweightCount()}`);
+
+  ```
+
+</CodeGroup>
+
+<div>
+  Bu örnekte, `Flyweight` arayüzü paylaşılabilir nesnelerin işlevselliğini tanımlar. `ConcreteFlyweight` sınıfı, bu arayüzü uygular ve paylaşılan nesnenin özelliklerini temsil eder. `FlyweightFactory` sınıfı, paylaşılan nesneleri yönetir ve bu nesneleri oluşturur. Kullanıcılar bu fabrikadan paylaşılan nesneleri alabilir.
+
+  Flyweight deseni, benzer nesnelerin paylaşılabilir özelliklerini bir araya getirerek bellek kullanımını azaltır. Bu özellikle büyük veri setleri veya benzer nesnelerin çok sayıda oluşturulduğu senaryolarda performans artışı sağlar.
+</div>
