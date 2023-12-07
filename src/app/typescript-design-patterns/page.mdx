@@ -988,67 +988,67 @@ Flyweight deseni, bir nesnenin paylaşılabilir (tekrar kullanılabilir) özelli
 
 ## Command Deseni
 
-Flyweight deseni, bir nesnenin paylaşılabilir (tekrar kullanılabilir) özelliklerini ve durumunu ayrıştıran bir yapısal tasarım desenidir. Bu desen, büyük miktarlarda benzer nesneler oluşturulduğunda ve bu nesnelerin birçoğunun aynı verilere sahip olduğunda kullanılır. Böylece, bellek kullanımını azaltarak performansı artırmayı amaçlar.
+Command deseni, bir nesnenin bir isteği (komutu) içerdiği bir nesne oluşturarak ve bu isteği bir nesne tarafından çağrılmaya elverişli bir şekilde sarmalayarak, komutları parametreleştirme, sıralama ve sıralı bir şekilde istemci nesne tarafından geri alma gibi işlemleri sağlayan bir davranışsal tasarım desenidir.
 
-İşte TypeScript ile basit bir Flyweight deseni örneği:
+İşte TypeScript ile basit bir Command deseni örneği:
 
 <CodeGroup title="Command">
 
   ```ts
-  // Flyweight arayüzü
-  interface Flyweight {
-  operation(extrinsicState: string): string;
+  // Command arayüzü
+  interface Command {
+  execute(): void;
 }
 
-  // ConcreteFlyweight sınıfı: Paylaşılan nesne
-  class ConcreteFlyweight implements Flyweight {
-  private intrinsicState: string;
-
-  constructor(intrinsicState: string) {
-  this.intrinsicState = intrinsicState;
-}
-
-  operation(extrinsicState: string): string {
-  return `ConcreteFlyweight: Intrinsic(${this.intrinsicState}), Extrinsic(${extrinsicState})`;
+  // Receiver sınıfı: Gerçek işlemleri gerçekleştiren nesne
+  class Receiver {
+  performAction(): void {
+  console.log('Receiver: Performing action');
 }
 }
 
-  // Flyweight Factory sınıfı: Paylaşılan nesneleri yönetir
-  class FlyweightFactory {
-  private flyweights: { [key: string]: Flyweight } = {};
+  // ConcreteCommand sınıfı: Command arayüzünü uygular ve Receiver'ı çağırır
+  class ConcreteCommand implements Command {
+  private receiver: Receiver;
 
-  getFlyweight(key: string): Flyweight {
-  if (!this.flyweights[key]) {
-  this.flyweights[key] = new ConcreteFlyweight(key);
-}
-  return this.flyweights[key];
+  constructor(receiver: Receiver) {
+  this.receiver = receiver;
 }
 
-  getFlyweightCount(): number {
-  return Object.keys(this.flyweights).length;
+  execute(): void {
+  console.log('ConcreteCommand: Execute');
+  this.receiver.performAction();
+}
+}
+
+  // Invoker sınıfı: Command nesnelerini çağıran nesne
+  class Invoker {
+  private command: Command;
+
+  setCommand(command: Command): void {
+  this.command = command;
+}
+
+  executeCommand(): void {
+  console.log('Invoker: Execute Command');
+  this.command.execute();
 }
 }
 
   // Kullanım
-  const factory = new FlyweightFactory();
+  const receiver = new Receiver();
+  const command = new ConcreteCommand(receiver);
+  const invoker = new Invoker();
 
-  const flyweight1 = factory.getFlyweight('A');
-  console.log(flyweight1.operation('X'));
-
-  const flyweight2 = factory.getFlyweight('B');
-  console.log(flyweight2.operation('Y'));
-
-  const flyweight3 = factory.getFlyweight('A');
-  console.log(flyweight3.operation('Z'));
-
-  console.log(`Number of flyweights created: ${factory.getFlyweightCount()}`);
+  invoker.setCommand(command);
+  invoker.executeCommand();
 
   ```
 
 </CodeGroup>
 
 <div>
-  Bu örnekte, `Flyweight` arayüzü paylaşılabilir nesnelerin işlevselliğini tanımlar. `ConcreteFlyweight` sınıfı, bu arayüzü uygular ve paylaşılan nesnenin özelliklerini temsil eder. `FlyweightFactory` sınıfı, paylaşılan nesneleri yönetir ve bu nesneleri oluşturur. Kullanıcılar bu fabrikadan paylaşılan nesneleri alabilir.
+  Bu örnekte, `Command` arayüzü, komutları temsil eder. `ConcreteCommand` sınıfı, bu arayüzü uygular ve bir `Receiver` nesnesini çağırarak gerçek işlemleri gerçekleştirir. `Invoker` sınıfı, `Command` nesnelerini çağırır ve bu sayede istemci tarafından işlemi başlatır.
 
-  Flyweight deseni, benzer nesnelerin paylaşılabilir özelliklerini bir araya getirerek bellek kullanımını azaltır. Bu özellikle büyük veri setleri veya benzer nesnelerin çok sayıda oluşturulduğu senaryolarda performans artışı sağlar.
+  Command deseni, istemci tarafından bir komutun tanımlanması, sıralanması ve gerçekleştirilmesi için esnek bir yol sağlar. Ayrıca, geri alma (undo) ve yeniden yapma (redo) gibi işlemleri yönetmek için de kullanılabilir.
 </div>
