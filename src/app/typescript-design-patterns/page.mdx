@@ -1065,53 +1065,57 @@ Bu desenin temel amacı, isteği işleyecek nesnenin belirlenmesini sadeleştirm
 <CodeGroup title="Chain of Responsibility">
 
   ```ts
-  // Command arayüzü
-  interface Command {
-  execute(): void;
+  // Handler arayüzü
+  interface Handler {
+  setNext(handler: Handler): Handler;
+  handleRequest(request: string): string | null;
 }
 
-  // Receiver sınıfı: Gerçek işlemleri gerçekleştiren nesne
-  class Receiver {
-  performAction(): void {
-  console.log('Receiver: Performing action');
-}
-}
+  // BaseHandler sınıfı
+  abstract class BaseHandler implements Handler {
+  private nextHandler: Handler | null = null;
 
-  // ConcreteCommand sınıfı: Command arayüzünü uygular ve Receiver'ı çağırır
-  class ConcreteCommand implements Command {
-  private receiver: Receiver;
-
-  constructor(receiver: Receiver) {
-  this.receiver = receiver;
+  setNext(handler: Handler): Handler {
+  this.nextHandler = handler;
+  return handler;
 }
 
-  execute(): void {
-  console.log('ConcreteCommand: Execute');
-  this.receiver.performAction();
+  handleRequest(request: string): string | null {
+  if (this.nextHandler) {
+  return this.nextHandler.handleRequest(request);
+}
+  return null;
 }
 }
 
-  // Invoker sınıfı: Command nesnelerini çağıran nesne
-  class Invoker {
-  private command: Command;
-
-  setCommand(command: Command): void {
-  this.command = command;
+  // ConcreteHandler sınıfları
+  class ConcreteHandlerA extends BaseHandler {
+  handleRequest(request: string): string | null {
+  if (request === 'A') {
+  return 'ConcreteHandlerA: Handling request A.';
+}
+  return super.handleRequest(request);
+}
 }
 
-  executeCommand(): void {
-  console.log('Invoker: Execute Command');
-  this.command.execute();
+  class ConcreteHandlerB extends BaseHandler {
+  handleRequest(request: string): string | null {
+  if (request === 'B') {
+  return 'ConcreteHandlerB: Handling request B.';
+}
+  return super.handleRequest(request);
 }
 }
 
   // Kullanım
-  const receiver = new Receiver();
-  const command = new ConcreteCommand(receiver);
-  const invoker = new Invoker();
+  const handlerA = new ConcreteHandlerA();
+  const handlerB = new ConcreteHandlerB();
 
-  invoker.setCommand(command);
-  invoker.executeCommand();
+  handlerA.setNext(handlerB);
+
+  console.log(handlerA.handleRequest('A')); // ConcreteHandlerA: Handling request A.
+  console.log(handlerA.handleRequest('B')); // ConcreteHandlerB: Handling request B.
+  console.log(handlerA.handleRequest('C')); // null
 
   ```
 
