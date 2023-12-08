@@ -1052,3 +1052,75 @@ Command deseni, bir nesnenin bir isteği (komutu) içerdiği bir nesne oluştura
 
   Command deseni, istemci tarafından bir komutun tanımlanması, sıralanması ve gerçekleştirilmesi için esnek bir yol sağlar. Ayrıca, geri alma (undo) ve yeniden yapma (redo) gibi işlemleri yönetmek için de kullanılabilir.
 </div>
+
+
+## Chain of Responsibility Deseni
+
+"Chain of Responsibility" (Sorumluluk Zinciri) tasarım deseni, bir dizi nesnenin sorumluluklarını zincirleme bir şekilde taşıdığı ve bir isteğin bu zincir üzerinde sırayla işlendiği bir yapısal tasarım desenidir. Bu desen, bir isteği işleyebilecek olan nesnenin belirlenmesini ve bu isteğin işlenene kadar zincir üzerinde ilerlemesini sağlar.
+
+Bu desenin temel amacı, isteği işleyecek nesnenin belirlenmesini sadeleştirmek ve isteği işleyen nesnelerin birbirinden bağımsız olmasını sağlamaktır. Her bir nesne, isteği işleyebiliyorsa işler, işleyemiyorsa isteği bir sonraki nesneye iletir.
+
+İşte TypeScript ile basit bir Chain of Responsibility deseni örneği:
+
+<CodeGroup title="Chain of Responsibility">
+
+  ```ts
+  // Command arayüzü
+  interface Command {
+  execute(): void;
+}
+
+  // Receiver sınıfı: Gerçek işlemleri gerçekleştiren nesne
+  class Receiver {
+  performAction(): void {
+  console.log('Receiver: Performing action');
+}
+}
+
+  // ConcreteCommand sınıfı: Command arayüzünü uygular ve Receiver'ı çağırır
+  class ConcreteCommand implements Command {
+  private receiver: Receiver;
+
+  constructor(receiver: Receiver) {
+  this.receiver = receiver;
+}
+
+  execute(): void {
+  console.log('ConcreteCommand: Execute');
+  this.receiver.performAction();
+}
+}
+
+  // Invoker sınıfı: Command nesnelerini çağıran nesne
+  class Invoker {
+  private command: Command;
+
+  setCommand(command: Command): void {
+  this.command = command;
+}
+
+  executeCommand(): void {
+  console.log('Invoker: Execute Command');
+  this.command.execute();
+}
+}
+
+  // Kullanım
+  const receiver = new Receiver();
+  const command = new ConcreteCommand(receiver);
+  const invoker = new Invoker();
+
+  invoker.setCommand(command);
+  invoker.executeCommand();
+
+  ```
+
+</CodeGroup>
+
+<div>
+  "Chain of Responsibility" (Sorumluluk Zinciri) tasarım deseni, bir dizi nesnenin sorumluluklarını zincirleme bir şekilde taşıdığı ve bir isteğin bu zincir üzerinde sırayla işlendiği bir yapısal tasarım desenidir. Bu desen, bir isteği işleyebilecek olan nesnenin belirlenmesini ve bu isteğin işlenene kadar zincir üzerinde ilerlemesini sağlar.
+
+  Bu desenin temel amacı, isteği işleyecek nesnenin belirlenmesini sadeleştirmek ve isteği işleyen nesnelerin birbirinden bağımsız olmasını sağlamaktır. Her bir nesne, isteği işleyebiliyorsa işler, işleyemiyorsa isteği bir sonraki nesneye iletir.
+
+  İşte TypeScript ile basit bir Chain of Responsibility deseni örneği:
+</div>
