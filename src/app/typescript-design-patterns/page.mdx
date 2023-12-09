@@ -1126,3 +1126,76 @@ Bu desenin temel amacı, isteği işleyecek nesnenin belirlenmesini sadeleştirm
 
   Chain of Responsibility deseni, bir isteğin işlenmesi için birden fazla nesnenin sorumluluk almasına olanak tanır ve isteğin işlenme sırası belirli bir sırayla takip edilir. Bu sayede, isteği işleyecek olan nesne belirlenmiş olur ve bir nesne, isteği işleyemediyse bu istek bir sonraki nesneye iletilir.
 </div>
+
+## Chain of Responsibility Deseni
+
+"Chain of Responsibility" (Sorumluluk Zinciri) tasarım deseni, bir dizi nesnenin sorumluluklarını zincirleme bir şekilde taşıdığı ve bir isteğin bu zincir üzerinde sırayla işlendiği bir yapısal tasarım desenidir. Bu desen, bir isteği işleyebilecek olan nesnenin belirlenmesini ve bu isteğin işlenene kadar zincir üzerinde ilerlemesini sağlar.
+
+Bu desenin temel amacı, isteği işleyecek nesnenin belirlenmesini sadeleştirmek ve isteği işleyen nesnelerin birbirinden bağımsız olmasını sağlamaktır. Her bir nesne, isteği işleyebiliyorsa işler, işleyemiyorsa isteği bir sonraki nesneye iletir.
+
+İşte TypeScript ile basit bir Chain of Responsibility deseni örneği:
+
+<CodeGroup title="Chain of Responsibility">
+
+  ```ts
+  // Handler arayüzü
+  interface Handler {
+  setNext(handler: Handler): Handler;
+  handleRequest(request: string): string | null;
+}
+
+  // BaseHandler sınıfı
+  abstract class BaseHandler implements Handler {
+  private nextHandler: Handler | null = null;
+
+  setNext(handler: Handler): Handler {
+  this.nextHandler = handler;
+  return handler;
+}
+
+  handleRequest(request: string): string | null {
+  if (this.nextHandler) {
+  return this.nextHandler.handleRequest(request);
+}
+  return null;
+}
+}
+
+  // ConcreteHandler sınıfları
+  class ConcreteHandlerA extends BaseHandler {
+  handleRequest(request: string): string | null {
+  if (request === 'A') {
+  return 'ConcreteHandlerA: Handling request A.';
+}
+  return super.handleRequest(request);
+}
+}
+
+  class ConcreteHandlerB extends BaseHandler {
+  handleRequest(request: string): string | null {
+  if (request === 'B') {
+  return 'ConcreteHandlerB: Handling request B.';
+}
+  return super.handleRequest(request);
+}
+}
+
+  // Kullanım
+  const handlerA = new ConcreteHandlerA();
+  const handlerB = new ConcreteHandlerB();
+
+  handlerA.setNext(handlerB);
+
+  console.log(handlerA.handleRequest('A')); // ConcreteHandlerA: Handling request A.
+  console.log(handlerA.handleRequest('B')); // ConcreteHandlerB: Handling request B.
+  console.log(handlerA.handleRequest('C')); // null
+
+  ```
+
+</CodeGroup>
+
+<div>
+  Bu örnekte, `Handler` arayüzü, isteği işleyen nesnelerin ortak metotlarını tanımlar. `BaseHandler` sınıfı, bu arayüzü uygular ve bir sonraki işleyiciyi belirleme ve isteği zincir üzerinde iletimi sağlar. `ConcreteHandlerA` ve `ConcreteHandlerB` sınıfları, isteği belirli koşullara göre işleyen somut işleyici sınıflarıdır.
+
+  Chain of Responsibility deseni, bir isteğin işlenmesi için birden fazla nesnenin sorumluluk almasına olanak tanır ve isteğin işlenme sırası belirli bir sırayla takip edilir. Bu sayede, isteği işleyecek olan nesne belirlenmiş olur ve bir nesne, isteği işleyemediyse bu istek bir sonraki nesneye iletilir.
+</div>
