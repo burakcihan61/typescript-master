@@ -58,6 +58,7 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn TypeScript](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html) - an interactive TypeScript tutorial.
 - [React Documentation](https://reactjs.org/docs/getting-started.html) - learn about React features and API.
 - [Learn React](https://reactjs.org/tutorial/tutorial.html) - an interactive React tutorial.
+- [Learnd Markdown](https://www.markdownguide.org/getting-started/) - an interactive Markdown tutorial.
 
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
