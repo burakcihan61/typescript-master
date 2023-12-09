@@ -1129,73 +1129,81 @@ Bu desenin temel amacı, isteği işleyecek nesnenin belirlenmesini sadeleştirm
 
 ## Interpreter Deseni
 
-"Chain of Responsibility" (Sorumluluk Zinciri) tasarım deseni, bir dizi nesnenin sorumluluklarını zincirleme bir şekilde taşıdığı ve bir isteğin bu zincir üzerinde sırayla işlendiği bir yapısal tasarım desenidir. Bu desen, bir isteği işleyebilecek olan nesnenin belirlenmesini ve bu isteğin işlenene kadar zincir üzerinde ilerlemesini sağlar.
 
-Bu desenin temel amacı, isteği işleyecek nesnenin belirlenmesini sadeleştirmek ve isteği işleyen nesnelerin birbirinden bağımsız olmasını sağlamaktır. Her bir nesne, isteği işleyebiliyorsa işler, işleyemiyorsa isteği bir sonraki nesneye iletir.
+"Interpreter" (Yorumlayıcı) tasarım deseni, belirli bir dilin veya problem alanının ifadelerini yorumlamak ve işlemek için kullanılan bir yapısal tasarım desenidir. Bu desen, belirli bir dil veya ifade setini temsil etmek için bir dil ağacı oluşturur ve bu ağacı yorumlayarak belirli işlemleri gerçekleştirir.
 
-İşte TypeScript ile basit bir Chain of Responsibility deseni örneği:
+Bu desen genellikle dil işleme veya belirli bir dildeki ifadeleri yorumlama durumlarında kullanılır. Bir dildeki ifadelerin anlamını yorumlamak için bir dil ağacı oluşturulur ve bu ağaç üzerinde dolaşarak ifadeleri yorumlamak işlemi gerçekleştirilir.
+
+İşte basit bir aritmetik ifade yorumlayıcısı örneği:
 
 <CodeGroup title="Interpreter">
 
   ```ts
-  // Handler arayüzü
-  interface Handler {
-  setNext(handler: Handler): Handler;
-  handleRequest(request: string): string | null;
+  // AbstractExpression sınıfı
+  interface AbstractExpression {
+  interpret(): number;
 }
 
-  // BaseHandler sınıfı
-  abstract class BaseHandler implements Handler {
-  private nextHandler: Handler | null = null;
+  // TerminalExpression sınıfı
+  class TerminalExpression implements AbstractExpression {
+  private value: number;
 
-  setNext(handler: Handler): Handler {
-  this.nextHandler = handler;
-  return handler;
+  constructor(value: number) {
+  this.value = value;
 }
 
-  handleRequest(request: string): string | null {
-  if (this.nextHandler) {
-  return this.nextHandler.handleRequest(request);
-}
-  return null;
+  interpret(): number {
+  return this.value;
 }
 }
 
-  // ConcreteHandler sınıfları
-  class ConcreteHandlerA extends BaseHandler {
-  handleRequest(request: string): string | null {
-  if (request === 'A') {
-  return 'ConcreteHandlerA: Handling request A.';
+  // NonTerminalExpression sınıfı
+  class AddExpression implements AbstractExpression {
+  private leftExpression: AbstractExpression;
+  private rightExpression: AbstractExpression;
+
+  constructor(leftExpression: AbstractExpression, rightExpression: AbstractExpression) {
+  this.leftExpression = leftExpression;
+  this.rightExpression = rightExpression;
 }
-  return super.handleRequest(request);
+
+  interpret(): number {
+  return this.leftExpression.interpret() + this.rightExpression.interpret();
 }
 }
 
-  class ConcreteHandlerB extends BaseHandler {
-  handleRequest(request: string): string | null {
-  if (request === 'B') {
-  return 'ConcreteHandlerB: Handling request B.';
+  // Context sınıfı
+  class Context {
+  private expression: AbstractExpression;
+
+  constructor(expression: AbstractExpression) {
+  this.expression = expression;
 }
-  return super.handleRequest(request);
+
+  setExpression(expression: AbstractExpression): void {
+  this.expression = expression;
+}
+
+  interpret(): number {
+  return this.expression.interpret();
 }
 }
 
   // Kullanım
-  const handlerA = new ConcreteHandlerA();
-  const handlerB = new ConcreteHandlerB();
+  const expression = new AddExpression(
+  new TerminalExpression(5),
+  new AddExpression(new TerminalExpression(3), new TerminalExpression(2))
+  );
 
-  handlerA.setNext(handlerB);
-
-  console.log(handlerA.handleRequest('A')); // ConcreteHandlerA: Handling request A.
-  console.log(handlerA.handleRequest('B')); // ConcreteHandlerB: Handling request B.
-  console.log(handlerA.handleRequest('C')); // null
+  const context = new Context(expression);
+  console.log(context.interpret()); // 10
 
   ```
 
 </CodeGroup>
 
 <div>
-  Bu örnekte, `Handler` arayüzü, isteği işleyen nesnelerin ortak metotlarını tanımlar. `BaseHandler` sınıfı, bu arayüzü uygular ve bir sonraki işleyiciyi belirleme ve isteği zincir üzerinde iletimi sağlar. `ConcreteHandlerA` ve `ConcreteHandlerB` sınıfları, isteği belirli koşullara göre işleyen somut işleyici sınıflarıdır.
+  Bu örnekte, `AbstractExpression` arayüzü, yorumlayıcı ifadelerin ortak metotlarını tanımlar. `TerminalExpression` sınıfı, bir sayıyı temsil eden ifadeleri yorumlar. `AddExpression` sınıfı, iki ifadeyi toplar. `Context` sınıfı, bir ifadeyi yorumlamak için kullanılır.
 
-  Chain of Responsibility deseni, bir isteğin işlenmesi için birden fazla nesnenin sorumluluk almasına olanak tanır ve isteğin işlenme sırası belirli bir sırayla takip edilir. Bu sayede, isteği işleyecek olan nesne belirlenmiş olur ve bir nesne, isteği işleyemediyse bu istek bir sonraki nesneye iletilir.
+  Interpreter deseni, bir dilin veya ifade setinin yorumlanması gereken durumlarda kullanılır. Bu desen, ifadeleri oluşturmak ve yorumlamak için bir yol sağlar, bu da genellikle dil işleme veya belirli bir dildeki kurallara dayalı işlemler için uygundur.
 </div>
