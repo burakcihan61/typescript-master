@@ -1210,80 +1210,90 @@ Bu desen genellikle dil işleme veya belirli bir dildeki ifadeleri yorumlama dur
 
 ## Mediator Deseni
 
-"Interpreter" (Yorumlayıcı) tasarım deseni, belirli bir dilin veya problem alanının ifadelerini yorumlamak ve işlemek için kullanılan bir yapısal tasarım desenidir. Bu desen, belirli bir dil veya ifade setini temsil etmek için bir dil ağacı oluşturur ve bu ağacı yorumlayarak belirli işlemleri gerçekleştirir.
+"Mediator" (Aracı) tasarım deseni, nesneler arasındaki etkileşimi düzenlemek ve bu nesneler arasındaki doğrudan bağımlılıkları azaltmak için kullanılan bir davranışsal tasarım desenidir. Bu desen, nesnelerin birbiriyle doğrudan iletişim kurmak yerine bir aracı üzerinden iletişim kurmalarını sağlar. Böylece, sistem içindeki nesneler birbirlerinden daha az bağımlı olur ve daha esnek bir yapı elde edilir.
 
-Bu desen genellikle dil işleme veya belirli bir dildeki ifadeleri yorumlama durumlarında kullanılır. Bir dildeki ifadelerin anlamını yorumlamak için bir dil ağacı oluşturulur ve bu ağaç üzerinde dolaşarak ifadeleri yorumlamak işlemi gerçekleştirilir.
+Mediator deseni, bir sistemdeki nesneler arasındaki ilişkiyi düzenlemek ve ortak bir arabirim üzerinden etkileşim sağlamak amacıyla kullanılır. Bu, nesnelerin birbirleriyle sıkı bir şekilde bağlı olmadan birbirleriyle iletişim kurmalarına olanak tanır.
 
-İşte basit bir aritmetik ifade yorumlayıcısı örneği:
+İşte TypeScript ile basit bir Mediator deseni örneği:
 
 <CodeGroup title="Mediator">
 
   ```ts
-  // AbstractExpression sınıfı
-  interface AbstractExpression {
-  interpret(): number;
+  // Mediator arayüzü
+  interface Mediator {
+  notify(sender: Colleague, event: string): void;
 }
 
-  // TerminalExpression sınıfı
-  class TerminalExpression implements AbstractExpression {
-  private value: number;
+  // ConcreteMediator sınıfı
+  class ConcreteMediator implements Mediator {
+  private colleague1: Colleague;
+  private colleague2: Colleague;
 
-  constructor(value: number) {
-  this.value = value;
+  setColleague1(colleague1: Colleague): void {
+  this.colleague1 = colleague1;
 }
 
-  interpret(): number {
-  return this.value;
-}
-}
-
-  // NonTerminalExpression sınıfı
-  class AddExpression implements AbstractExpression {
-  private leftExpression: AbstractExpression;
-  private rightExpression: AbstractExpression;
-
-  constructor(leftExpression: AbstractExpression, rightExpression: AbstractExpression) {
-  this.leftExpression = leftExpression;
-  this.rightExpression = rightExpression;
+  setColleague2(colleague2: Colleague): void {
+  this.colleague2 = colleague2;
 }
 
-  interpret(): number {
-  return this.leftExpression.interpret() + this.rightExpression.interpret();
+  notify(sender: Colleague, event: string): void {
+  if (sender === this.colleague1) {
+  console.log(`Mediator notified: Colleague1 sends event - ${event}`);
+  this.colleague2.handleEvent(event);
+} else if (sender === this.colleague2) {
+  console.log(`Mediator notified: Colleague2 sends event - ${event}`);
+  this.colleague1.handleEvent(event);
+}
 }
 }
 
-  // Context sınıfı
-  class Context {
-  private expression: AbstractExpression;
-
-  constructor(expression: AbstractExpression) {
-  this.expression = expression;
+  // Colleague arayüzü
+  interface Colleague {
+  setMediator(mediator: Mediator): void;
+  sendEvent(event: string): void;
+  handleEvent(event: string): void;
 }
 
-  setExpression(expression: AbstractExpression): void {
-  this.expression = expression;
+  // ConcreteColleague sınıfı
+  class ConcreteColleague implements Colleague {
+  private mediator: Mediator;
+
+  setMediator(mediator: Mediator): void {
+  this.mediator = mediator;
 }
 
-  interpret(): number {
-  return this.expression.interpret();
+  sendEvent(event: string): void {
+  console.log(`Colleague sends event - ${event}`);
+  this.mediator.notify(this, event);
+}
+
+  handleEvent(event: string): void {
+  console.log(`Colleague handles event - ${event}`);
 }
 }
 
   // Kullanım
-  const expression = new AddExpression(
-  new TerminalExpression(5),
-  new AddExpression(new TerminalExpression(3), new TerminalExpression(2))
-  );
+  const mediator = new ConcreteMediator();
 
-  const context = new Context(expression);
-  console.log(context.interpret()); // 10
+  const colleague1 = new ConcreteColleague();
+  colleague1.setMediator(mediator);
+
+  const colleague2 = new ConcreteColleague();
+  colleague2.setMediator(mediator);
+
+  mediator.setColleague1(colleague1);
+  mediator.setColleague2(colleague2);
+
+  colleague1.sendEvent('Event A');
+  colleague2.sendEvent('Event B');
 
   ```
 
 </CodeGroup>
 
 <div>
-  Bu örnekte, `AbstractExpression` arayüzü, yorumlayıcı ifadelerin ortak metotlarını tanımlar. `TerminalExpression` sınıfı, bir sayıyı temsil eden ifadeleri yorumlar. `AddExpression` sınıfı, iki ifadeyi toplar. `Context` sınıfı, bir ifadeyi yorumlamak için kullanılır.
+  Bu örnekte, `Mediator` arayüzü, nesneler arasındaki etkileşimi sağlayan yöntemleri tanımlar. `ConcreteMediator` sınıfı, bu arayüzü uygular ve nesneler arasındaki etkileşimi düzenler. `Colleague` arayüzü, etkileşimde bulunan nesneleri temsil eder. `ConcreteColleague` sınıfı, bu arayüzü uygular ve bir olayı gönderip alabilen nesneleri temsil eder.
 
-  Interpreter deseni, bir dilin veya ifade setinin yorumlanması gereken durumlarda kullanılır. Bu desen, ifadeleri oluşturmak ve yorumlamak için bir yol sağlar, bu da genellikle dil işleme veya belirli bir dildeki kurallara dayalı işlemler için uygundur.
+  Mediator deseni, nesneler arasındaki bağımlılıkları azaltmak ve sistemdeki etkileşimleri düzenlemek için kullanılır. Bu sayede, sistemin daha esnek ve bakımı daha kolay olur.
 </div>
