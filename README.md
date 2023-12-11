@@ -19,6 +19,7 @@ Bu proje, TypeScript kullanarak yaygın tasarım desenlerini anlamak ve uygulama
 13. [Flyweight Pattern](#flyweight-pattern)
 14. [Command Pattern](#command-pattern)
 15. [Chain of Responsibility Pattern](#chain-of-responsibility-pattern)
+16. [Mediator Pattern](#mediator-pattern)
 
 ## TypeScript Tricks
 1. [Request Handler Axios](#request-handler-axios)
