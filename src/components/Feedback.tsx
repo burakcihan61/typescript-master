@@ -1,3 +1,32 @@
+/**
+ * React component that displays a feedback form and a thank you message.
+ * Uses the Transition component from the "@headlessui/react" library to animate the form and thank you message based on the state of the form submission.
+ *
+ * Example Usage:
+ * import { Feedback } from "./Feedback"
+ *
+ * function App() {
+ *   return (
+ *     <div>
+ *       <h1>Welcome to My Website</h1>
+ *       <Feedback />
+ *     </div>
+ *   )
+ * }
+ *
+ * Inputs: None
+ *
+ * Flow:
+ * 1. Renders a form with a question asking if the page was helpful.
+ * 2. Form has two buttons, "Evet" (Yes) and "Hayır" (No), wrapped in a div with a grid layout.
+ * 3. When the form is submitted, the `onSubmit` function is called, which prevents the default form submission behavior.
+ * 4. The `onSubmit` function sets the `submitted` state to `true`, triggering the transition to the thank you message.
+ * 5. The thank you message is displayed using the `Transition` component when the `submitted` state is `true`.
+ *
+ * Outputs:
+ * - Renders a feedback form with a question and two buttons for the user to provide feedback.
+ * - After submitting the form, a thank you message is displayed.
+ */
 "use client"
 
 import { forwardRef, Fragment, useState } from "react"
