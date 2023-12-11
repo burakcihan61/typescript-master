@@ -1207,3 +1207,83 @@ Bu desen genellikle dil işleme veya belirli bir dildeki ifadeleri yorumlama dur
 
   Interpreter deseni, bir dilin veya ifade setinin yorumlanması gereken durumlarda kullanılır. Bu desen, ifadeleri oluşturmak ve yorumlamak için bir yol sağlar, bu da genellikle dil işleme veya belirli bir dildeki kurallara dayalı işlemler için uygundur.
 </div>
+
+## Interpreter Deseni
+
+"Interpreter" (Yorumlayıcı) tasarım deseni, belirli bir dilin veya problem alanının ifadelerini yorumlamak ve işlemek için kullanılan bir yapısal tasarım desenidir. Bu desen, belirli bir dil veya ifade setini temsil etmek için bir dil ağacı oluşturur ve bu ağacı yorumlayarak belirli işlemleri gerçekleştirir.
+
+Bu desen genellikle dil işleme veya belirli bir dildeki ifadeleri yorumlama durumlarında kullanılır. Bir dildeki ifadelerin anlamını yorumlamak için bir dil ağacı oluşturulur ve bu ağaç üzerinde dolaşarak ifadeleri yorumlamak işlemi gerçekleştirilir.
+
+İşte basit bir aritmetik ifade yorumlayıcısı örneği:
+
+<CodeGroup title="Interpreter">
+
+  ```ts
+  // AbstractExpression sınıfı
+  interface AbstractExpression {
+  interpret(): number;
+}
+
+  // TerminalExpression sınıfı
+  class TerminalExpression implements AbstractExpression {
+  private value: number;
+
+  constructor(value: number) {
+  this.value = value;
+}
+
+  interpret(): number {
+  return this.value;
+}
+}
+
+  // NonTerminalExpression sınıfı
+  class AddExpression implements AbstractExpression {
+  private leftExpression: AbstractExpression;
+  private rightExpression: AbstractExpression;
+
+  constructor(leftExpression: AbstractExpression, rightExpression: AbstractExpression) {
+  this.leftExpression = leftExpression;
+  this.rightExpression = rightExpression;
+}
+
+  interpret(): number {
+  return this.leftExpression.interpret() + this.rightExpression.interpret();
+}
+}
+
+  // Context sınıfı
+  class Context {
+  private expression: AbstractExpression;
+
+  constructor(expression: AbstractExpression) {
+  this.expression = expression;
+}
+
+  setExpression(expression: AbstractExpression): void {
+  this.expression = expression;
+}
+
+  interpret(): number {
+  return this.expression.interpret();
+}
+}
+
+  // Kullanım
+  const expression = new AddExpression(
+  new TerminalExpression(5),
+  new AddExpression(new TerminalExpression(3), new TerminalExpression(2))
+  );
+
+  const context = new Context(expression);
+  console.log(context.interpret()); // 10
+
+  ```
+
+</CodeGroup>
+
+<div>
+  Bu örnekte, `AbstractExpression` arayüzü, yorumlayıcı ifadelerin ortak metotlarını tanımlar. `TerminalExpression` sınıfı, bir sayıyı temsil eden ifadeleri yorumlar. `AddExpression` sınıfı, iki ifadeyi toplar. `Context` sınıfı, bir ifadeyi yorumlamak için kullanılır.
+
+  Interpreter deseni, bir dilin veya ifade setinin yorumlanması gereken durumlarda kullanılır. Bu desen, ifadeleri oluşturmak ve yorumlamak için bir yol sağlar, bu da genellikle dil işleme veya belirli bir dildeki kurallara dayalı işlemler için uygundur.
+</div>
