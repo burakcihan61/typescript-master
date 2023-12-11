@@ -1,3 +1,28 @@
+/**
+ * This code snippet is a TypeScript/React component that provides a reusable code panel with features like copying code to clipboard and displaying code in different languages. It uses the Tab component from the "@headlessui/react" library to handle multiple code panels with tabs.
+ *
+ * Example Usage:
+ * <CodeGroup title="Code Examples">
+ *   <CodePanel tag="JavaScript" code="console.log('Hello, World!');" />
+ *   <CodePanel tag="TypeScript" code="console.log('Hello, World!');" />
+ *   <CodePanel tag="Python" code="print('Hello, World!')" />
+ * </CodeGroup>
+ *
+ * Inputs:
+ * - children: The content of the code group, which consists of one or more CodePanel components.
+ * - title: The title of the code group.
+ *
+ * Flow:
+ * 1. The CodeGroup component receives the children and title props.
+ * 2. It maps over the children to extract the titles of each code panel.
+ * 3. It uses the Tab component from the "@headlessui/react" library to render the tabs based on the extracted titles.
+ * 4. When a tab is selected, the corresponding code panel is displayed.
+ * 5. The CodePanel component renders the code panel with a header, code content, and a copy button.
+ * 6. The copy button allows the user to copy the code to the clipboard.
+ *
+ * Outputs:
+ * - A code group component with multiple code panels, each containing a header, code content, and a copy button. The code can be displayed in different languages and copied to the clipboard.
+ */
 "use client"
 
 import {
