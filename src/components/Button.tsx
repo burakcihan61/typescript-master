@@ -1,6 +1,19 @@
 import Link from "next/link"
 import clsx from "clsx"
 
+/**
+ * Renders an SVG arrow icon.
+ * 
+ * @component
+ * 
+ * @example
+ * ```jsx
+ * <ArrowIcon className="mt-0.5 h-5 w-5" />
+ * ```
+ * 
+ * @param {React.ComponentPropsWithoutRef<"svg">} props - The props object passed to the component.
+ * @returns {JSX.Element} The rendered SVG arrow icon.
+ */
 function ArrowIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
@@ -27,13 +40,38 @@ const variantStyles = {
 }
 
 type ButtonProps = {
+  /**
+   * The variant style of the button.
+   * It can be one of "primary", "secondary", "filled", "outline", or "text".
+   * Default is "primary".
+   */
   variant?: keyof typeof variantStyles
+  /**
+   * The direction of the arrow icon.
+   * It can be one of "left" or "right".
+   * Default is undefined.
+   */
   arrow?: "left" | "right"
 } & (
   | React.ComponentPropsWithoutRef<typeof Link>
   | (React.ComponentPropsWithoutRef<"button"> & { href?: undefined })
 )
 
+/**
+ * Renders a button or a link with different visual styles and an optional arrow icon.
+ * 
+ * @component
+ * 
+ * @example
+ * ```jsx
+ * <Button variant="primary" arrow="right" className="mt-2">
+ *   Click me
+ * </Button>
+ * ```
+ * 
+ * @param {ButtonProps} props - The props object passed to the component.
+ * @returns {JSX.Element} The rendered button or link.
+ */
 export function Button({
   variant = "primary",
   className,
