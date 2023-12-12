@@ -1297,3 +1297,93 @@ Mediator deseni, bir sistemdeki nesneler arasındaki ilişkiyi düzenlemek ve or
 
   Mediator deseni, nesneler arasındaki bağımlılıkları azaltmak ve sistemdeki etkileşimleri düzenlemek için kullanılır. Bu sayede, sistemin daha esnek ve bakımı daha kolay olur.
 </div>
+
+
+## Memento Deseni
+
+"Memento" (Hatırlayıcı) tasarım deseni, bir nesnenin iç durumunu bir dizi halinde saklamak ve bu durumu daha sonra geri yüklemek için kullanılan bir davranışsal tasarım desenidir. Bu desen, bir nesnenin durumunu kaydedip geri yüklemek için kullanılır ve nesnenin durumunu anlık bir şekilde tutarak geri alma veya geçmiş durumlara dönme işlevselliği sağlar.
+
+Memento deseni, bir nesnenin iç durumunu saklamak için bir "Memento" nesnesi kullanır. Bu nesne, nesnenin durumunu temsil eden bir arayüzü uygular. Ardından, bir "Caretaker" nesnesi, nesnenin durumunu saklamak ve geri yüklemek için bu "Memento" nesnesini kullanır.
+
+İşte TypeScript ile basit bir Memento deseni örneği:
+
+<CodeGroup title="Memento">
+
+  ```ts
+  // Memento arayüzü
+  interface Memento {
+  getState(): string;
+}
+
+  // ConcreteMemento sınıfı
+  class ConcreteMemento implements Memento {
+  private state: string;
+
+  constructor(state: string) {
+  this.state = state;
+}
+
+  getState(): string {
+  return this.state;
+}
+}
+
+  // Originator sınıfı
+  class Originator {
+  private state: string;
+
+  setState(state: string): void {
+  console.log(`Originator: Setting state to ${state}`);
+  this.state = state;
+}
+
+  save(): Memento {
+  console.log('Originator: Saving state');
+  return new ConcreteMemento(this.state);
+}
+
+  restore(memento: Memento): void {
+  this.state = memento.getState();
+  console.log(`Originator: Restoring state to ${this.state}`);
+}
+}
+
+  // Caretaker sınıfı
+  class Caretaker {
+  private mementos: Memento[] = [];
+
+  addMemento(memento: Memento): void {
+  this.mementos.push(memento);
+}
+
+  getMemento(index: number): Memento {
+  return this.mementos[index];
+}
+}
+
+  // Kullanım
+  const originator = new Originator();
+  const caretaker = new Caretaker();
+
+  originator.setState('State 1');
+  caretaker.addMemento(originator.save());
+
+  originator.setState('State 2');
+  caretaker.addMemento(originator.save());
+
+  originator.setState('State 3');
+
+  console.log('Current State:', originator);
+
+  originator.restore(caretaker.getMemento(1));
+  console.log('Restored State:', originator);
+
+  ```
+
+</CodeGroup>
+
+<div>
+  Bu örnekte, `Memento` arayüzü, nesnenin durumunu temsil eder. `ConcreteMemento` sınıfı, bu arayüzü uygular ve nesnenin durumunu saklar. `Originator` sınıfı, durumu ayarlamak, saklamak ve geri yüklemek için kullanılır. `Caretaker` sınıfı, bir dizi Memento'yu saklar ve gerektiğinde geri yüklemek için kullanılır.
+
+  Memento deseni, nesnenin durumunu saklamak ve geri yüklemek için kullanılarak, özellikle kullanıcıların geçmiş durumlarına dönmelerini sağlamak üzere tasarlanmıştır.
+</div>
