@@ -1390,89 +1390,67 @@ Memento deseni, bir nesnenin iç durumunu saklamak için bir "Memento" nesnesi k
 
 ## State Deseni
 
-"Memento" (Hatırlayıcı) tasarım deseni, bir nesnenin iç durumunu bir dizi halinde saklamak ve bu durumu daha sonra geri yüklemek için kullanılan bir davranışsal tasarım desenidir. Bu desen, bir nesnenin durumunu kaydedip geri yüklemek için kullanılır ve nesnenin durumunu anlık bir şekilde tutarak geri alma veya geçmiş durumlara dönme işlevselliği sağlar.
+"State" (Durum) tasarım deseni, bir nesnenin iç durumunu değiştirdiğinde davranışını da değiştirmesini sağlayan bir davranışsal tasarım desenidir. Bu desen, bir nesnenin durumlarını temsil eden bir dizi sınıf ve bu durumların değiştirilmesini sağlayan bir "Context" (Bağlam) sınıfını içerir.
 
-Memento deseni, bir nesnenin iç durumunu saklamak için bir "Memento" nesnesi kullanır. Bu nesne, nesnenin durumunu temsil eden bir arayüzü uygular. Ardından, bir "Caretaker" nesnesi, nesnenin durumunu saklamak ve geri yüklemek için bu "Memento" nesnesini kullanır.
+State deseni, bir nesnenin davranışlarını durumlarına göre değiştirmek için kullanılır. Bu durumlar, genellikle bir arayüzü uygulayan farklı durum sınıfları olarak modellenir. Context sınıfı, iç durumu değiştiren ve bu duruma göre davranışlarını güncelleyen bir arayüz sunar.
 
-İşte TypeScript ile basit bir Memento deseni örneği:
+İşte TypeScript ile basit bir State deseni örneği:
 
 <CodeGroup title="State">
 
   ```ts
-  // Memento arayüzü
-  interface Memento {
-  getState(): string;
+  // State arayüzü
+  interface State {
+  handleRequest(): void;
 }
 
-  // ConcreteMemento sınıfı
-  class ConcreteMemento implements Memento {
-  private state: string;
+  // ConcreteState sınıfları
+  class ConcreteStateA implements State {
+  handleRequest(): void {
+  console.log('ConcreteStateA is handling the request.');
+}
+}
 
-  constructor(state: string) {
+  class ConcreteStateB implements State {
+  handleRequest(): void {
+  console.log('ConcreteStateB is handling the request.');
+}
+}
+
+  // Context sınıfı
+  class Context {
+  private state: State;
+
+  constructor(state: State) {
   this.state = state;
 }
 
-  getState(): string {
-  return this.state;
-}
-}
-
-  // Originator sınıfı
-  class Originator {
-  private state: string;
-
-  setState(state: string): void {
-  console.log(`Originator: Setting state to ${state}`);
+  setState(state: State): void {
   this.state = state;
 }
 
-  save(): Memento {
-  console.log('Originator: Saving state');
-  return new ConcreteMemento(this.state);
-}
-
-  restore(memento: Memento): void {
-  this.state = memento.getState();
-  console.log(`Originator: Restoring state to ${this.state}`);
-}
-}
-
-  // Caretaker sınıfı
-  class Caretaker {
-  private mementos: Memento[] = [];
-
-  addMemento(memento: Memento): void {
-  this.mementos.push(memento);
-}
-
-  getMemento(index: number): Memento {
-  return this.mementos[index];
+  request(): void {
+  this.state.handleRequest();
 }
 }
 
   // Kullanım
-  const originator = new Originator();
-  const caretaker = new Caretaker();
+  const initialState = new ConcreteStateA();
+  const context = new Context(initialState);
 
-  originator.setState('State 1');
-  caretaker.addMemento(originator.save());
+  context.request(); // ConcreteStateA is handling the request.
 
-  originator.setState('State 2');
-  caretaker.addMemento(originator.save());
+  const newState = new ConcreteStateB();
+  context.setState(newState);
 
-  originator.setState('State 3');
-
-  console.log('Current State:', originator);
-
-  originator.restore(caretaker.getMemento(1));
-  console.log('Restored State:', originator);
+  context.request(); // ConcreteStateB is handling the request.
 
   ```
 
 </CodeGroup>
 
 <div>
-  Bu örnekte, `Memento` arayüzü, nesnenin durumunu temsil eder. `ConcreteMemento` sınıfı, bu arayüzü uygular ve nesnenin durumunu saklar. `Originator` sınıfı, durumu ayarlamak, saklamak ve geri yüklemek için kullanılır. `Caretaker` sınıfı, bir dizi Memento'yu saklar ve gerektiğinde geri yüklemek için kullanılır.
+  Bu örnekte, State arayüzü, durumları temsil eden sınıfların bir arayüzünü tanımlar. ConcreteStateA ve ConcreteStateB sınıfları, bu arayüzü uygular ve farklı durumları temsil eder. Context sınıfı, durumu değiştiren ve bu duruma göre davranışlarını güncelleyen bir sınıftır.
 
-  Memento deseni, nesnenin durumunu saklamak ve geri yüklemek için kullanılarak, özellikle kullanıcıların geçmiş durumlarına dönmelerini sağlamak üzere tasarlanmıştır.
+  State deseni, bir nesnenin farklı durumlarını temsil eden sınıfları kullanarak, nesnenin davranışlarını bu durumlara göre dinamik olarak değiştirmeyi sağlar. Bu, duruma bağlı olarak farklı davranışlar sergilemek istediğiniz durumlarda kullanışlıdır.
 </div>
