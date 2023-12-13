@@ -21,6 +21,7 @@ Bu proje, TypeScript kullanarak yaygın tasarım desenlerini anlamak ve uygulama
 15. [Chain of Responsibility Pattern](#chain-of-responsibility-pattern)
 16. [Mediator Pattern](#mediator-pattern)
 17. [Memento Pattern](#memento-pattern)
+18. [State Pattern](#state-pattern)
 
 ## TypeScript Tricks
 1. [Request Handler Axios](#request-handler-axios)
