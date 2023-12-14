@@ -1455,15 +1455,16 @@ State deseni, bir nesnenin davranışlarını durumlarına göre değiştirmek i
   State deseni, bir nesnenin farklı durumlarını temsil eden sınıfları kullanarak, nesnenin davranışlarını bu durumlara göre dinamik olarak değiştirmeyi sağlar. Bu, duruma bağlı olarak farklı davranışlar sergilemek istediğiniz durumlarda kullanışlıdır.
 </div>
 
-## State Deseni
+## Strategy Deseni
 
-"State" (Durum) tasarım deseni, bir nesnenin iç durumunu değiştirdiğinde davranışını da değiştirmesini sağlayan bir davranışsal tasarım desenidir. Bu desen, bir nesnenin durumlarını temsil eden bir dizi sınıf ve bu durumların değiştirilmesini sağlayan bir "Context" (Bağlam) sınıfını içerir.
 
-State deseni, bir nesnenin davranışlarını durumlarına göre değiştirmek için kullanılır. Bu durumlar, genellikle bir arayüzü uygulayan farklı durum sınıfları olarak modellenir. Context sınıfı, iç durumu değiştiren ve bu duruma göre davranışlarını güncelleyen bir arayüz sunar.
+"Strategy" (Strateji) tasarım deseni, bir algoritmanın ailesini tanımlar, bu algoritmaları birer nesne haline getirir ve bu nesnelerin birbirleriyle değiştirilebilir olduğunu sağlar. Yani, bir nesnenin belirli bir davranışını değiştirmek için farklı stratejileri içeren nesneler kullanılır.
 
-İşte TypeScript ile basit bir State deseni örneği:
+Bu desen, bir algoritmanın mantığını içeren sınıfları soyutlar ve bu sınıfları bir arayüz üzerinden erişilebilir kılar. Ardından, bu soyut sınıfları uygulayan farklı sınıflar yazılır ve bu sınıflar, ihtiyaca bağlı olarak değiştirilebilir. Bu durum, bir nesnenin davranışını dinamik olarak değiştirmek istediğinizde kullanışlıdır.
 
-<CodeGroup title="State">
+İşte TypeScript ile basit bir Strategy deseni örneği:
+
+<CodeGroup title="Strategy">
 
   ```ts
   // State arayüzü
