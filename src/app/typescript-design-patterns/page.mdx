@@ -1454,3 +1454,70 @@ State deseni, bir nesnenin davranışlarını durumlarına göre değiştirmek i
 
   State deseni, bir nesnenin farklı durumlarını temsil eden sınıfları kullanarak, nesnenin davranışlarını bu durumlara göre dinamik olarak değiştirmeyi sağlar. Bu, duruma bağlı olarak farklı davranışlar sergilemek istediğiniz durumlarda kullanışlıdır.
 </div>
+
+## State Deseni
+
+"State" (Durum) tasarım deseni, bir nesnenin iç durumunu değiştirdiğinde davranışını da değiştirmesini sağlayan bir davranışsal tasarım desenidir. Bu desen, bir nesnenin durumlarını temsil eden bir dizi sınıf ve bu durumların değiştirilmesini sağlayan bir "Context" (Bağlam) sınıfını içerir.
+
+State deseni, bir nesnenin davranışlarını durumlarına göre değiştirmek için kullanılır. Bu durumlar, genellikle bir arayüzü uygulayan farklı durum sınıfları olarak modellenir. Context sınıfı, iç durumu değiştiren ve bu duruma göre davranışlarını güncelleyen bir arayüz sunar.
+
+İşte TypeScript ile basit bir State deseni örneği:
+
+<CodeGroup title="State">
+
+  ```ts
+  // State arayüzü
+  interface State {
+  handleRequest(): void;
+}
+
+  // ConcreteState sınıfları
+  class ConcreteStateA implements State {
+  handleRequest(): void {
+  console.log('ConcreteStateA is handling the request.');
+}
+}
+
+  class ConcreteStateB implements State {
+  handleRequest(): void {
+  console.log('ConcreteStateB is handling the request.');
+}
+}
+
+  // Context sınıfı
+  class Context {
+  private state: State;
+
+  constructor(state: State) {
+  this.state = state;
+}
+
+  setState(state: State): void {
+  this.state = state;
+}
+
+  request(): void {
+  this.state.handleRequest();
+}
+}
+
+  // Kullanım
+  const initialState = new ConcreteStateA();
+  const context = new Context(initialState);
+
+  context.request(); // ConcreteStateA is handling the request.
+
+  const newState = new ConcreteStateB();
+  context.setState(newState);
+
+  context.request(); // ConcreteStateB is handling the request.
+
+  ```
+
+</CodeGroup>
+
+<div>
+  Bu örnekte, State arayüzü, durumları temsil eden sınıfların bir arayüzünü tanımlar. ConcreteStateA ve ConcreteStateB sınıfları, bu arayüzü uygular ve farklı durumları temsil eder. Context sınıfı, durumu değiştiren ve bu duruma göre davranışlarını güncelleyen bir sınıftır.
+
+  State deseni, bir nesnenin farklı durumlarını temsil eden sınıfları kullanarak, nesnenin davranışlarını bu durumlara göre dinamik olarak değiştirmeyi sağlar. Bu, duruma bağlı olarak farklı davranışlar sergilemek istediğiniz durumlarda kullanışlıdır.
+</div>
