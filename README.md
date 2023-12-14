@@ -22,6 +22,7 @@ Bu proje, TypeScript kullanarak yaygın tasarım desenlerini anlamak ve uygulama
 16. [Mediator Pattern](#mediator-pattern)
 17. [Memento Pattern](#memento-pattern)
 18. [State Pattern](#state-pattern)
+19. [Strategy Pattern](#strategy-pattern)
 
 ## TypeScript Tricks
 1. [Request Handler Axios](#request-handler-axios)
