@@ -1457,7 +1457,6 @@ State deseni, bir nesnenin davranışlarını durumlarına göre değiştirmek i
 
 ## Strategy Deseni
 
-
 "Strategy" (Strateji) tasarım deseni, bir algoritmanın ailesini tanımlar, bu algoritmaları birer nesne haline getirir ve bu nesnelerin birbirleriyle değiştirilebilir olduğunu sağlar. Yani, bir nesnenin belirli bir davranışını değiştirmek için farklı stratejileri içeren nesneler kullanılır.
 
 Bu desen, bir algoritmanın mantığını içeren sınıfları soyutlar ve bu sınıfları bir arayüz üzerinden erişilebilir kılar. Ardından, bu soyut sınıfları uygulayan farklı sınıflar yazılır ve bu sınıflar, ihtiyaca bağlı olarak değiştirilebilir. Bu durum, bir nesnenin davranışını dinamik olarak değiştirmek istediğinizde kullanışlıdır.
@@ -1467,58 +1466,58 @@ Bu desen, bir algoritmanın mantığını içeren sınıfları soyutlar ve bu s�
 <CodeGroup title="Strategy">
 
   ```ts
-  // State arayüzü
-  interface State {
-  handleRequest(): void;
+  // Strategy arayüzü
+  interface Strategy {
+  execute(): void;
 }
 
-  // ConcreteState sınıfları
-  class ConcreteStateA implements State {
-  handleRequest(): void {
-  console.log('ConcreteStateA is handling the request.');
+  // ConcreteStrategy sınıfları
+  class ConcreteStrategyA implements Strategy {
+  execute(): void {
+  console.log('Executing ConcreteStrategyA');
 }
 }
 
-  class ConcreteStateB implements State {
-  handleRequest(): void {
-  console.log('ConcreteStateB is handling the request.');
+  class ConcreteStrategyB implements Strategy {
+  execute(): void {
+  console.log('Executing ConcreteStrategyB');
 }
 }
 
   // Context sınıfı
   class Context {
-  private state: State;
+  private strategy: Strategy;
 
-  constructor(state: State) {
-  this.state = state;
+  constructor(strategy: Strategy) {
+  this.strategy = strategy;
 }
 
-  setState(state: State): void {
-  this.state = state;
+  setStrategy(strategy: Strategy): void {
+  this.strategy = strategy;
 }
 
-  request(): void {
-  this.state.handleRequest();
+  executeStrategy(): void {
+  this.strategy.execute();
 }
 }
 
   // Kullanım
-  const initialState = new ConcreteStateA();
-  const context = new Context(initialState);
+  const strategyA = new ConcreteStrategyA();
+  const context = new Context(strategyA);
 
-  context.request(); // ConcreteStateA is handling the request.
+  context.executeStrategy(); // Executing ConcreteStrategyA
 
-  const newState = new ConcreteStateB();
-  context.setState(newState);
+  const strategyB = new ConcreteStrategyB();
+  context.setStrategy(strategyB);
 
-  context.request(); // ConcreteStateB is handling the request.
+  context.executeStrategy(); // Executing ConcreteStrategyB
 
   ```
 
 </CodeGroup>
 
 <div>
-  Bu örnekte, State arayüzü, durumları temsil eden sınıfların bir arayüzünü tanımlar. ConcreteStateA ve ConcreteStateB sınıfları, bu arayüzü uygular ve farklı durumları temsil eder. Context sınıfı, durumu değiştiren ve bu duruma göre davranışlarını güncelleyen bir sınıftır.
+  Bu örnekte, `Strategy` arayüzü, stratejileri temsil eden sınıfların bir arayüzünü tanımlar. `ConcreteStrategyA` ve `ConcreteStrategyB` sınıfları, bu arayüzü uygular ve farklı stratejileri temsil eder. `Context` sınıfı, bir stratejiyi içerir ve bu stratejiyi değiştirebilir. `executeStrategy` metodu, içinde bulunan stratejiyi çağırarak belirli bir davranışı gerçekleştirir.
 
-  State deseni, bir nesnenin farklı durumlarını temsil eden sınıfları kullanarak, nesnenin davranışlarını bu durumlara göre dinamik olarak değiştirmeyi sağlar. Bu, duruma bağlı olarak farklı davranışlar sergilemek istediğiniz durumlarda kullanışlıdır.
+  Strategy deseni, bir nesnenin davranışını değiştirmenin bir yolunu sağlar ve bu durum, özellikle bir nesnenin çeşitli durumlara bağlı olarak farklı davranışlar sergilemesi gerektiğinde kullanışlıdır.
 </div>
