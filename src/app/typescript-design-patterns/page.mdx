@@ -1521,3 +1521,81 @@ Bu desen, bir algoritmanın mantığını içeren sınıfları soyutlar ve bu s�
 
   Strategy deseni, bir nesnenin davranışını değiştirmenin bir yolunu sağlar ve bu durum, özellikle bir nesnenin çeşitli durumlara bağlı olarak farklı davranışlar sergilemesi gerektiğinde kullanışlıdır.
 </div>
+
+## Visitor Deseni
+
+
+"Visitor" (Ziyaretçi) tasarım deseni, bir nesne üzerinde belirli bir işlemi gerçekleştirmek için bir aile içinde dolaşan ve bu işlemi gerçekleştiren ayrı bir nesneyi temsil eden bir davranışsal tasarım desenidir. Bu desen, nesneler üzerinde yeni işlemler eklemek ve bu işlemleri birbirinden bağımsız bir şekilde gerçekleştirmek için kullanılır.
+
+Visitor deseni, genellikle bir nesne hiyerarşisindeki nesnelerin türlerini temsil eden bir dizi sınıfı içerir. Ayrıca, bu nesnelerin üzerinde farklı işlemleri gerçekleştirmek üzere tasarlanmış bir "Visitor" arayüzü ve bu arayüzü uygulayan "ConcreteVisitor" sınıfları bulunur.
+
+İşte TypeScript ile basit bir Visitor deseni örneği:
+
+<CodeGroup title="Strategy">
+
+  ```ts
+  // Element arayüzü
+  interface Element {
+  accept(visitor: Visitor): void;
+}
+
+  // ConcreteElement sınıfları
+  class ConcreteElementA implements Element {
+  accept(visitor: Visitor): void {
+  visitor.visitElementA(this);
+}
+}
+
+  class ConcreteElementB implements Element {
+  accept(visitor: Visitor): void {
+  visitor.visitElementB(this);
+}
+}
+
+  // Visitor arayüzü
+  interface Visitor {
+  visitElementA(element: ConcreteElementA): void;
+  visitElementB(element: ConcreteElementB): void;
+}
+
+  // ConcreteVisitor sınıfı
+  class ConcreteVisitor implements Visitor {
+  visitElementA(element: ConcreteElementA): void {
+  console.log('ConcreteVisitor visits ConcreteElementA');
+}
+
+  visitElementB(element: ConcreteElementB): void {
+  console.log('ConcreteVisitor visits ConcreteElementB');
+}
+}
+
+  // ObjectStructure sınıfı
+  class ObjectStructure {
+  private elements: Element[] = [];
+
+  addElement(element: Element): void {
+  this.elements.push(element);
+}
+
+  accept(visitor: Visitor): void {
+  this.elements.forEach(element => element.accept(visitor));
+}
+}
+
+  // Kullanım
+  const objectStructure = new ObjectStructure();
+  objectStructure.addElement(new ConcreteElementA());
+  objectStructure.addElement(new ConcreteElementB());
+
+  const visitor = new ConcreteVisitor();
+  objectStructure.accept(visitor);
+
+  ```
+
+</CodeGroup>
+
+<div>
+  Bu örnekte, `Element` arayüzü, ziyaret edilecek nesnelerin ortak bir arayüzünü tanımlar. `ConcreteElementA` ve `ConcreteElementB` sınıfları, bu arayüzü uygular ve ziyaretçiye kabul etme işlemini gerçekleştirir. `Visitor` arayüzü, ziyaretçinin işlemlerini tanımlar. `ConcreteVisitor` sınıfı, bu arayüzü uygular ve farklı eleman türlerini ziyaret eden işlemleri gerçekleştirir. `ObjectStructure` sınıfı, ziyaret edilecek nesnelerin koleksiyonunu tutar ve bir ziyaretçi tarafından gezilmesini sağlar.
+
+  Visitor deseni, yeni işlemler eklemek ve bu işlemleri nesne hiyerarşisinin değişik sınıflarına uygulamak için kullanılır. Bu sayede, her bir sınıfın kendine özgü bir ziyaretçi ile işlem yapmasına olanak tanır.
+</div>

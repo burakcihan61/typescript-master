@@ -24,6 +24,7 @@ Bu proje, TypeScript kullanarak yaygın tasarım desenlerini anlamak ve uygulama
 18. [State Pattern](#state-pattern)
 19. [Strategy Pattern](#strategy-pattern)
 20. [Template Method Pattern](#template-method-pattern)
+21. [Visitor Pattern](#visitor-pattern)
 
 ## TypeScript Tricks
 1. [Request Handler Axios](#request-handler-axios)
